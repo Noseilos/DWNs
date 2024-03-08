@@ -6,6 +6,7 @@ import './assets/styles/index.css';
 import { 
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider
 } from 'react-router-dom'
@@ -41,10 +42,18 @@ import CategoryEditScreen from './screens/admin/CategoryEditScreen';
 import BrandCreateScreen from './screens/admin/BrandCreateScreen';
 import BrandListScreen from './screens/admin/BrandListScreen';
 import BrandEditScreen from './screens/admin/BrandEditScreen';
-
+import AppLayout from './screens/AppLayout';
+import ProtectedRoute from './screens/ProtectedRoute';
 // --- COMPONENT IMPORTS
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
+import CityList from './components/CityList';
+import City from './components/City';
+import CountryList from './components/CountryList';
+import Form from './components/Form';
+
+import { CitiesProvider } from "./contexts/CitiesContext";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -64,7 +73,21 @@ const router = createBrowserRouter(
         <Route path='/placeorder' element={ <PlaceOrderScreen /> }></Route>
         <Route path='/order/:id' element={ <OrderScreen /> }></Route>
         <Route path='/profile' element={ <ProfileScreen /> }></Route>
+        <Route path='/app' element={ <App /> }></Route>
       </Route>
+
+      <Route
+                path="app"
+                element={
+                    <AppLayout />
+                }
+              >
+                <Route index element={<Navigate replace to="cities" />} />
+                <Route path="cities" element={<CityList />} />
+                <Route path="cities/:id" element={<City />} />
+                <Route path="countries" element={<CountryList />} />
+                <Route path="form" element={<Form />} />
+              </Route>
 
       <Route path='' element={ <AdminRoute /> }>
         <Route path='/admin/orders' element={ <OrderlistScreen /> }/>
@@ -86,13 +109,16 @@ const router = createBrowserRouter(
   )
 )
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
         <PayPalScriptProvider deferLoading={true}>
-          <RouterProvider router={ router }/>
+          {/* Wrap the entire router setup with CitiesProvider */}
+          <CitiesProvider>
+            <RouterProvider router={router} />
+          </CitiesProvider>
         </PayPalScriptProvider>
       </Provider>
     </HelmetProvider>

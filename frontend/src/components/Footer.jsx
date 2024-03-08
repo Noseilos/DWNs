@@ -1,19 +1,13 @@
-import React from 'react'
-
-// --- STYLE IMPORTS --- 
-import { Container, Row, Col } from 'react-bootstrap'
-
-const Footer = () => {
-    const currentYear = new Date().getFullYear();
-
+import styles from "./styles/Footer.module.css"
+function Footer() {
   return (
-    <footer>
-        <Container>
-            <Col className="text-center py-3">
-                <p>NTech Drones &copy; {currentYear}</p>
-            </Col>
-        </Container>
-    </footer>
+    <footer className={`${styles.footer} text-center py-3`}>
+    <p className={styles.copyright}>
+      &copy; Copyright {new Date().getFullYear()} by DWN
+      Inc.
+    </p>
+  </footer>
+  
   )
 }
 

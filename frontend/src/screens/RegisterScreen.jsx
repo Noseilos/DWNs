@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,9 @@ import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import styles from './styles/Register.module.css'
+import { Divider } from '@mui/material';
+import Header from '../components/Header';
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -79,11 +82,13 @@ const RegisterScreen = () => {
     }, [userInfo, redirect, navigate]);
 
     return (
+        <main className={styles.register}>
+            <Header/>
         <FormContainer>
-            <h1>Register</h1>
+            <Form onSubmit={formik.handleSubmit} className={styles.form}>
+            <Divider>REGISTER </Divider>
 
-            <Form onSubmit={formik.handleSubmit}>
-                <Form.Group controlId='name' className='my-3'>
+                <Form.Group controlId='name' className={styles.row}>
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                         type='text'
@@ -96,11 +101,11 @@ const RegisterScreen = () => {
                     <div className='text-danger'>{formik.touched.name && formik.errors.name}</div>
                 </Form.Group>
 
-                <Form.Group controlId='email' className='my-3'>
-                    <Form.Label>Email Address</Form.Label>
+                <Form.Group controlId='email' className={styles.row}>
+                    <Form.Label>Email</Form.Label>
                     <Form.Control
                         type='email'
-                        placeholder='Enter Email'
+                        placeholder='email@example.com'
                         name='email'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -109,8 +114,8 @@ const RegisterScreen = () => {
                     <div className='text-danger'>{formik.touched.email && formik.errors.email}</div>
                 </Form.Group>
 
-                <Form.Group controlId='image' className='my-2'>
-                    <Form.Label>Image</Form.Label>
+                <Form.Group controlId='image' className={styles.row}>
+                    <Form.Label>Avatar</Form.Label>
                     <Form.Control
                         type='file'
                         label='Choose files'
@@ -120,11 +125,11 @@ const RegisterScreen = () => {
                     <div className='text-danger'>{formik.touched.image && formik.errors.image}</div>
                 </Form.Group>
 
-                <Form.Group controlId='password' className='my-3'>
+                <Form.Group controlId='password' className={styles.row}>
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type='password'
-                        placeholder='Enter Password'
+                        placeholder='••••••••'
                         name='password'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -133,11 +138,11 @@ const RegisterScreen = () => {
                     <div className='text-danger'>{formik.touched.password && formik.errors.password}</div>
                 </Form.Group>
 
-                <Form.Group controlId='confirmPassword' className='my-3'>
+                <Form.Group controlId='confirmPassword'className={styles.row}>
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control
                         type='password'
-                        placeholder='Confirm Password'
+                        placeholder='••••••••'
                         name='confirmPassword'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -151,15 +156,20 @@ const RegisterScreen = () => {
                 </Button>
 
                 {isLoading && <Loader />}
+                <div className={styles.lnk}>
+              <label>
+                <Link className={styles.link} to="/login">
+                  Have an account?
+                </Link>
+              </label>
+            </div>
 
             </Form>
 
-            <Row className='py-3'>
-                <Col>
-                    Have an account? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Login</Link>
-                </Col>
-            </Row>
+            
         </FormContainer>
+        </main>
+
     );
 };
 

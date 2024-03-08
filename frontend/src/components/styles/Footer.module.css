@@ -1,0 +1,12 @@
+
+.footer {
+    background-color: var(--color-dark--1);
+    min-height: calc(5vh);
+    display: flex; /* Add this line */
+    justify-content: center; /* Add this line */
+  }
+  
+  .copyright {
+    font-size: 1.2rem;
+    color: var(--color-light--1);
+  }
