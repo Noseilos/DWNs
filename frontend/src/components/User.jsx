@@ -1,20 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
-import { logout, getUser } from "../utils/helpers";
+import { getUser } from "../utils/helpers";
+import { useDispatch } from "react-redux";
 import styles from "./styles/User.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { logout } from "../slices/authSlice";
+import { useLogoutMutation } from "../slices/usersApiSlice";
 
 function User() {
   const [user, setUser] = useState({});
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [logoutApiCall] = useLogoutMutation();
 
   const logoutUser = async () => {
     try {
-      await axios.get(`http://localhost:3000/api/v1/logout`);
-      setUser({});
-      logout(() => navigate("/"));
-    } catch (error) {
-      // toast.error(error.response?.data?.message || "An error occurred");
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
     }
   };
 

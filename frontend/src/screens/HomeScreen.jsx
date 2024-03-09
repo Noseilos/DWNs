@@ -46,9 +46,9 @@ const HomeScreen = () => {
       ) : (
         <section>
           <h1>
-            Waste Management:
+            Dynamic Waste Navigations:
             <br />
-            And Strategy To Sustainable Waste Management In TUP-Taguig
+            An Extensive Data Analysis for Waste Management Utilizing Geographical Information System (GIS) in TUP Taguig
           </h1>
           <h2>
             Explore the waste landscape of TUP-Taguig through data-driven insights. Our analysis provides a
