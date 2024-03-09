@@ -1,32 +1,35 @@
-const express = require('express');
-const reportsController = require('../controllers/reportsController');
-const authController = require('../controllers/authController');
-
+import express from 'express'
 const router = express.Router();
+
+import { getAllReports, uploadReportImages, resizeReportImages, createReports } from "../controllers/reportsController.js"
+import { protect, restrictTo } from "../controllers/authController.js"
+
 
 router
   .route(`/`)
-  .get(reportsController.getAllReports)
+  .get(getAllReports)
   .post(
-    authController.protect, 
-    authController.restrictTo('admin'), 
-    reportsController.createReports
+    protect, 
+    restrictTo('admin'), 
+    uploadReportImages,
+    resizeReportImages,
+    createReports
   );
 
-router
-  .route(`/:id`)
-  .get(reportsController.getAllReportsById)
-  .patch(
-    authController.protect, 
-    authController.restrictTo('admin'), 
-    reportsController.uploadReportImages,
-    reportsController.resizeReportImages,
-    reportsController.updateReportsById
-  )
-  .delete(
-    authController.protect,
-    authController.restrictTo('admin'),
-    reportsController.deleteReportsById,
-  );
+// router
+//   .route(`/:id`)
+//   .get(reportsController.getAllReportsById)
+//   .patch(
+//     authController.protect, 
+//     authController.restrictTo('admin'), 
+//     reportsController.uploadReportImages,
+//     reportsController.resizeReportImages,
+//     reportsController.updateReportsById
+//   )
+//   .delete(
+//     authController.protect,
+//     authController.restrictTo('admin'),
+//     reportsController.deleteReportsById,
+//   );
 
-module.exports = router;
+  export default router;

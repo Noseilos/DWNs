@@ -1,9 +1,9 @@
-const multer = require('multer');
-const sharp = require('sharp');
-const Reports = require('../models/reportsModel');
-const catchAsync = require('../utils/catchAsync');
-const factory = require('./handlerFactory');
-const AppError = require('../utils/appError');
+import multer from 'multer'
+import sharp from 'sharp'
+import Reports from '../models/reportsModel.js'
+import catchAsync from '../utils/catchAsync.js'
+import factory from './handlerFactory.js'
+import AppError from '../utils/appError.js'
 
 const multerStorage = multer.memoryStorage();
 
@@ -20,11 +20,11 @@ const upload = multer({
   fileFilter: multerFileFilter,
 });
 
-exports.uploadReportImages = upload.fields([
+const uploadReportImages = upload.fields([
   { name: "images", maxCount: 3 }
 ])
 
-exports.resizeReportImages = catchAsync(async (req, res, next) => {
+const resizeReportImages = catchAsync(async (req, res, next) => {
   console.log(req.files)
 
   if(!req.files.images) {
@@ -40,7 +40,7 @@ exports.resizeReportImages = catchAsync(async (req, res, next) => {
         .resize(2000, 1333)
         .toFormat('jpeg')
         .jpeg({ quality: 90 })
-        .toFile(`public/img/reports/${fileName}`);
+        .toFile(`uploads/reports/${fileName}`);
 
       req.body.images.push(fileName)
   }))
@@ -49,9 +49,49 @@ exports.resizeReportImages = catchAsync(async (req, res, next) => {
   next()
 })
 
+const createReports = catchAsync(async (req, res, next) => {
+  try {
+    const { summary, images, location } = req.body;
+    const { _id: user } = req.user; 
 
-exports.getAllReports = factory.getAll(Reports);
-exports.getAllReportsById = factory.getOne(Reports);
-exports.createReports = factory.createOne(Reports);
-exports.updateReportsById = factory.updateOne(Reports);
-exports.deleteReportsById = factory.deleteOne(Reports);
+    const report = new Reports({
+      user,
+      summary,
+      images,
+      location: {
+        type: 'Point',
+        coordinates: [location.lat, location.lng],
+      },
+    });
+
+    await report.save();
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        report,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+});
+
+const getAllReports = factory.getAll(Reports);
+const getAllReportsById = factory.getOne(Reports);
+const updateReportsById = factory.updateOne(Reports);
+const deleteReportsById = factory.deleteOne(Reports);
+
+export {
+  multerFileFilter,
+  uploadReportImages,
+  resizeReportImages,
+  createReports,
+  getAllReports,
+  getAllReportsById,
+  updateReportsById,
+  deleteReportsById
+}

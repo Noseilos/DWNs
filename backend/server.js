@@ -15,6 +15,7 @@ import categoryUploadRoutes from './routes/categoryUploadRoutes.js';
 import brandUploadRoutes from './routes/brandUploadRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import brandRoutes from './routes/brandRoutes.js';
+import reportRoutes from './routes/reportRoutes.js';
 
 const port = process.env.PORT || 5000;
 
@@ -35,6 +36,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/brands', brandRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/reports', reportRoutes);
 app.use('/api/orders', orderRoutes);
 
 app.use('/api/uploads', uploadRoutes);

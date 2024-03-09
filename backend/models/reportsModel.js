@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+import mongoose from "mongoose";
+import slugify from "slugify";
 
 const reportsSchema = new mongoose.Schema(
   {
     user: {
-        type: mongoose.Schema.Types.ObjectId, 
-        required: true,
-        ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
     slug: String,
     summary: {
@@ -14,7 +14,7 @@ const reportsSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'A report must have a summary'],
     },
-    // images: [String],
+    images: [String],
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -23,11 +23,11 @@ const reportsSchema = new mongoose.Schema(
     location: {
       type: {
         type: String,
-        default: 'Point',
-        enum: ['Point'],
+        default: "Point",
+        enum: ["Point"],
       },
-      coordinates: [Number]
-    }
+      coordinates: [Number],
+    },
   },
 
   {
@@ -37,17 +37,18 @@ const reportsSchema = new mongoose.Schema(
     toObject: {
       virtuals: true,
     },
-  },
+  }
 );
 
-reportsSchema.index({ slug: 1 })
-reportsSchema.index({ location: '2dsphere' })
+reportsSchema.index({ slug: 1 });
+reportsSchema.index({ location: "2dsphere" });
 
-reportsSchema.pre('save', function (next) {
+reportsSchema.pre("save", function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
 
-const Reports = mongoose.model('Reports', reportsSchema);
+const Reports = mongoose.model("Reports", reportsSchema);
 
-module.exports = Reports;
+export default Reports;
+

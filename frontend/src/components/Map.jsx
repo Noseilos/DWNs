@@ -1,4 +1,5 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react"; // Add this line to import useState hook
+import { useNavigate } from "react-router-dom";
 import {
   MapContainer,
   TileLayer,
@@ -8,30 +9,26 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import styles from "./styles/Map.module.css";
-import { useEffect, useState } from "react";
-import { useCities } from "../contexts/CitiesContext";
-import { useGeolocation } from "../hooks/useGeolocation";
-import Button from "./Button";
+import { useEffect } from "react";
+import { useReports } from "../contexts/ReportsContext";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 
 function Map() {
-  const { cities } = useCities();
+  const { cities } = useReports();
 
-  const [mapPosition, setMapPosition] = useState([14.508505572327003, 121.03538990020752]);
-  //lat=14.508505572327003&lng=121.03538990020752 - TUP-TAGUIG
+  const [mapPosition, setMapPosition] = useState([
+    14.508505572327003,
+    121.03538990020752,
+  ]);
 
   const [mapLat, mapLng] = useUrlPosition();
 
-  useEffect(
-    function () {
-      if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
-    },
-    [mapLat, mapLng]
-  );
+  useEffect(() => {
+    if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
+  }, [mapLat, mapLng]);
 
   return (
     <div className={styles.mapContainer}>
-      
       <MapContainer
         center={mapPosition}
         zoom={20}
@@ -42,16 +39,17 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        {cities.map((city) => (
-          <Marker
-            position={[city.position.lat, city.position.lng]}
-            key={city.id}
-          >
-            <Popup>
-              <span>{city.emoji}</span> <span>{city.cityName}</span>
-            </Popup>
-          </Marker>
-        ))}
+        {cities &&
+          cities.map((city) => (
+            <Marker
+              position={[city.position.lat, city.position.lng]}
+              key={city.id}
+            >
+              <Popup>
+                <span>{city.emoji}</span> <span>{city.cityName}</span>
+              </Popup>
+            </Marker>
+          ))}
         <ChangeCenter position={mapPosition} />
         <DetectClick />
       </MapContainer>

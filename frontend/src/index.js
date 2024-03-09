@@ -38,7 +38,7 @@ import City from './components/City';
 import CountryList from './components/CountryList';
 import Form from './components/Form';
 
-import { CitiesProvider } from "./contexts/CitiesContext";
+import { ReportsProvider } from "./contexts/ReportsContext";
 
 
 const router = createBrowserRouter(
@@ -76,9 +76,9 @@ root.render(
     <HelmetProvider>
       <Provider store={store}>
           {/* Wrap the entire router setup with CitiesProvider */}
-          <CitiesProvider>
+          <ReportsProvider>
             <RouterProvider router={router} />
-          </CitiesProvider>
+          </ReportsProvider>
       </Provider>
     </HelmetProvider>
   </React.StrictMode>
