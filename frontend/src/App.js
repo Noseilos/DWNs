@@ -7,6 +7,7 @@ import HomeScreen from './screens/HomeScreen'
 
 // --- STYLE IMPORTS ---
 import { Container } from 'react-bootstrap'
+import styles from "./screens/styles/Homepage.module.css";
 
 // --- PACKAGE IMPORTS ---
 import { Outlet } from 'react-router-dom'
@@ -17,11 +18,12 @@ import 'react-toastify/dist/ReactToastify.css'
 const App = () => {
   return (
     <>
-      <main>
-          <Outlet />
+      <main className={styles.homepage}>
+        <Header/>
+            <Outlet />
+        <Footer />
+        <ToastContainer />
       </main>
-      <Footer />
-      <ToastContainer />
     </>
   )
 }

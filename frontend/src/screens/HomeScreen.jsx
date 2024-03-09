@@ -10,11 +10,15 @@ import styles from "./styles/Homepage.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Header from "../components/Header";
 
+import { useSelector } from "react-redux";
+
 const HomeScreen = () => {
   const { keyword } = useParams();
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  
+  const { userInfo } = useSelector((state) => state.auth);
 
   const { data, isLoading, error } = useGetProductsQuery({
     keyword,
@@ -35,8 +39,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <main className={styles.homepage}>
-      <Header/>
+    <>
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -54,12 +57,14 @@ const HomeScreen = () => {
             Explore the waste landscape of TUP-Taguig through data-driven insights. Our analysis provides a
             comprehensive strategy for sustainable waste management in the campus.
           </h2>
-          <Link to="/app" className="cta">
-            Start
-          </Link>
+          {userInfo && (
+            <Link to="/app" className="cta">
+              Start
+            </Link>
+          )}
         </section>
       )}
-    </main>
+    </>
   );
 };
 
