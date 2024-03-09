@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import Spinner from "./Spinner";
-import Message from "./Message";
+import ReportMessage from "./ReportMessage";
 import { useCities } from "../contexts/CitiesContext";
 
 export function convertToEmoji(countryCode) {
@@ -83,8 +83,8 @@ function Form() {
     navigate('/app/cities');
   }
   if (isLoadingGeocoding) return <Spinner />;
-  if (!lat && !lng) return <Message message="Start by clicking on the map." />;
-  if (geocodingError) return <Message message={geocodingError} />;
+  if (!lat && !lng) return <ReportMessage message="Start by clicking on the map." />;
+  if (geocodingError) return <ReportMessage message={geocodingError} />;
   return (
     <form
       className={`${styles.form} ${isLoading ? styles.loading : ""}`}

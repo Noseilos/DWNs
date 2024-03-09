@@ -1,7 +1,7 @@
 import styles from "./styles/CountryList.module.css";
 import Spinner from "./Spinner";
 import CountryItem from "./CountryItem";
-import Message from "./Message";
+import ReportMessage from "./ReportMessage";
 import { useCities } from "../contexts/CitiesContext";
 
 function CountryList() {
@@ -11,7 +11,7 @@ function CountryList() {
 
   if (!cities.length)
     return (
-      <Message message="Add your first city by clicking on a city on the map" />
+      <ReportMessage message="Add your first report by clicking on the map" />
     );
 
     const countries = cities.reduce((arr, city) => {

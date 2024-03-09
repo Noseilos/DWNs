@@ -1,7 +1,7 @@
 import styles from "./styles/CityList.module.css";
 import Spinner from "./Spinner";
 import CityItem from "./CityItem";
-import Message from "./Message";
+import ReportMessage from "./ReportMessage";
 import { useCities } from "../contexts/CitiesContext";
 
 function CityList() {
@@ -11,7 +11,7 @@ function CityList() {
 
   if (!cities.length)
     return (
-      <Message message="Add your first city by clicking on a city on the map" />
+      <ReportMessage message="Add your first report by clicking on the map" />
     );
   return (
     <ul className={styles.cityList}>
