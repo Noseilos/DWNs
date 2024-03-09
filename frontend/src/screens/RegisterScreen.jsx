@@ -16,7 +16,7 @@ import Header from '../components/Header';
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    image: Yup.array().min(1, 'Please upload at least one image'),
+    image: Yup.string().required('Image is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
     confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
 });
@@ -37,7 +37,7 @@ const RegisterScreen = () => {
         initialValues: {
             name: '',
             email: '',
-            image: [],
+            image: '',
             password: '',
             confirmPassword: '',
         },
@@ -61,8 +61,8 @@ const RegisterScreen = () => {
     const uploadFileHandler = async (e) => {
         const formData = new FormData();
 
-        for (let i = 0; i < e.target.files.length; i++) {
-            formData.append('image', e.target.files[i]);
+        if (e.target.files.length > 0) {
+            formData.append('image', e.target.files[0]);
         }
 
         try {
@@ -83,7 +83,6 @@ const RegisterScreen = () => {
 
     return (
         <main className={styles.register}>
-            <Header/>
         <FormContainer>
             <Form onSubmit={formik.handleSubmit} className={styles.form}>
             <Divider>REGISTER </Divider>

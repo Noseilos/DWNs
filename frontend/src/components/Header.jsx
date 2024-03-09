@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
+
 import styles from "./styles/Header.module.css";
 import Logo from "./Logo";
 
@@ -39,7 +40,7 @@ const Header = () => {
           <li>
             <figure className="avatar avatar-nav">
               <img
-                src={userInfo.image[0]}
+                src={userInfo.image}
                 alt={userInfo && userInfo.name}
                 className="rounded-circle"
               />

@@ -25,15 +25,14 @@ function checkFileType(file, cb){
 }
 
 const upload = multer({
-    storage,
+    storage,    
 });
 
-router.post('/', upload.array('image', 3), (req, res) => {
-    const imagePaths = req.files.map(file => `/${file.path}`);
+router.post('/', upload.single('image'), (req, res) => {
 
     res.send({
-        message: 'Images uploaded',
-        image: imagePaths,
+        message: 'Image uploaded',
+        image: `/${req.file.path}`,
     });
 });
 

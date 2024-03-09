@@ -64,17 +64,8 @@ const ProfileScreen = () => {
         <Col md={3}>
             <h2>User Profile</h2>
 
-            {userInfo.image && userInfo.image.length > 1 ? (
-                <Carousel activeIndex={activeIndex} onSelect={handleSelect}>
-                  {userInfo.image.map((image, index) => (
-                    <Carousel.Item key={index}>
-                      <BootstrapImage src={image} alt={`Image ${index + 1}`} fluid />
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
-              ) : (
-                <BootstrapImage src={userInfo.image} alt={userInfo.name} fluid />
-              )}
+            
+            {/* <BootstrapImage src={userInfo.image} alt={userInfo.name} fluid /> */}
 
             <Form onSubmit={submitHandler}>
                 <Form.Group
