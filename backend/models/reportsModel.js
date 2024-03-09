@@ -14,11 +14,7 @@ const reportsSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'A report must have a summary'],
     },
-    description: {
-      type: String,
-      trim: true,
-    },
-    images: [String],
+    // images: [String],
     createdAt: {
       type: Date,
       default: Date.now(),
