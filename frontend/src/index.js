@@ -21,29 +21,15 @@ import { HelmetProvider } from 'react-helmet-async'
 
 // --- SCREEN IMPORTS
 import HomeScreen from './screens/HomeScreen';
-import ProductScreen from './screens/ProductScreen';
-import CartScreen from './screens/CartScreen';
+import ReportListScreen from './screens/admin/ReportListScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import ShippingScreen from './screens/ShippingScreen';
-import PaymentScreen from './screens/PaymentScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
-import OrderScreen from './screens/OrderScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import OrderlistScreen from './screens/admin/OrderlistScreen';
-import ProductListScreen from './screens/admin/ProductListScreen';
-import ProductEditScreen from './screens/admin/ProductEditScreen';
 import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
-import ProductCreateScreen from './screens/admin/ProductCreateScreen';
-import CategoryCreateScreen from './screens/admin/CategoryCreateScreen';
-import CategoryListScreen from './screens/admin/CategoryListScreen';
-import CategoryEditScreen from './screens/admin/CategoryEditScreen';
-import BrandCreateScreen from './screens/admin/BrandCreateScreen';
-import BrandListScreen from './screens/admin/BrandListScreen';
-import BrandEditScreen from './screens/admin/BrandEditScreen';
 import AppLayout from './screens/AppLayout';
 import ProtectedRoute from './screens/ProtectedRoute';
+
 // --- COMPONENT IMPORTS
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
@@ -59,19 +45,10 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index={ true } path='/' element={ <HomeScreen /> }/>
-      <Route path='/search/:keyword' element={ <HomeScreen /> }/>
-      <Route path='/page/:pageNumber' element={ <HomeScreen /> }/>
-      <Route path='/search/:keyword/page/:pageNumber' element={ <HomeScreen /> }/>
-      <Route path='/product/:id' element={ <ProductScreen /> }/>
-      <Route path='/cart' element={ <CartScreen /> }/>
       <Route path='/login' element={ <LoginScreen /> }/>
       <Route path='/register' element={ <RegisterScreen /> }/>
 
       <Route path='' element={ <PrivateRoute /> }>
-        <Route path='/shipping' element={ <ShippingScreen /> }/>
-        <Route path='/payment' element={ <PaymentScreen /> }/>
-        <Route path='/placeorder' element={ <PlaceOrderScreen /> }></Route>
-        <Route path='/order/:id' element={ <OrderScreen /> }></Route>
         <Route path='/profile' element={ <ProfileScreen /> }></Route>
         <Route path='/app' element={ <App /> }></Route>
       </Route>
@@ -85,18 +62,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path='' element={ <AdminRoute /> }>
-        <Route path='/admin/orders' element={ <OrderlistScreen /> }/>
-        <Route path='/admin/product/edit/:id' element={ <ProductEditScreen /> }/>
-        <Route path='/admin/products' element={ <ProductListScreen /> }/>
-        <Route path='/admin/products/:pageNumber' element={ <ProductListScreen /> }/>
-        <Route path='/admin/product/create' element={ <ProductCreateScreen /> }/>
-        <Route path='/admin/category/create' element={ <CategoryCreateScreen /> }/>
-        <Route path='/admin/categories' element={ <CategoryListScreen /> }/>
-        <Route path='/admin/category/edit/:id' element={ <CategoryEditScreen /> }/>
-        <Route path='/admin/brand/create' element={ <BrandCreateScreen /> }/>
-        <Route path='/admin/brand/edit/:id' element={ <BrandEditScreen /> }/>
-        <Route path='/admin/brands' element={ <BrandListScreen /> }/>
-        <Route path='/admin/orders' element={ <OrderlistScreen /> }/>
+        <Route path='/admin/reports' element={ <ReportListScreen /> }/>
         <Route path='/admin/users' element={ <UserListScreen /> }/>
         <Route path='/admin/user/edit/:id' element={ <UserEditScreen /> }/>
       </Route>
@@ -109,12 +75,10 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
-        <PayPalScriptProvider deferLoading={true}>
           {/* Wrap the entire router setup with CitiesProvider */}
           <CitiesProvider>
             <RouterProvider router={router} />
           </CitiesProvider>
-        </PayPalScriptProvider>
       </Provider>
     </HelmetProvider>
   </React.StrictMode>
