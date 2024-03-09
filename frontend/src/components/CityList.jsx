@@ -2,14 +2,14 @@ import styles from "./styles/CityList.module.css";
 import Spinner from "./Spinner";
 import CityItem from "./CityItem";
 import ReportMessage from "./ReportMessage";
-import { useCities } from "../contexts/CitiesContext";
+import { useReports } from "../contexts/ReportsContext";
 
 function CityList() {
-  const { cities, isLoading } = useCities();
+  const { cities, isLoading } = useReports();
 
   if (isLoading) return <Spinner />;
 
-  if (!cities.length)
+  if (!cities || !cities.length)
     return (
       <ReportMessage message="Add your first report by clicking on the map" />
     );
