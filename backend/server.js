@@ -36,6 +36,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/brands', brandRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/uploads/user', userUploadRoutes);
 app.use('/api/uploads/category', categoryUploadRoutes);
