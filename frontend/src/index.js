@@ -11,7 +11,6 @@ import {
   RouterProvider
 } from 'react-router-dom'
 import { Provider } from 'react-redux';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import store from './store';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -28,7 +27,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
 import AppLayout from './screens/AppLayout';
-import ProtectedRoute from './screens/ProtectedRoute';
+// import ProtectedRoute from './screens/ProtectedRoute';
 
 // --- COMPONENT IMPORTS
 import PrivateRoute from './components/PrivateRoute';

@@ -1,9 +1,10 @@
 import multer from 'multer'
 import sharp from 'sharp'
 import Reports from '../models/reportsModel.js'
-import catchAsync from '../utils/catchAsync.js'
-import factory from './handlerFactory.js'
-import AppError from '../utils/appError.js'
+import catchAsync from '../utils/catchAsync.js';
+import AppError from '../utils/appError.js';
+import { getAll, getOne, updateOne, deleteOne } from './handlerFactory.js'
+
 
 const multerStorage = multer.memoryStorage();
 
@@ -80,10 +81,10 @@ const createReports = catchAsync(async (req, res, next) => {
   }
 });
 
-const getAllReports = factory.getAll(Reports);
-const getAllReportsById = factory.getOne(Reports);
-const updateReportsById = factory.updateOne(Reports);
-const deleteReportsById = factory.deleteOne(Reports);
+const getAllReports = getAll(Reports);
+const getAllReportsById = getOne(Reports);
+const updateReportsById = updateOne(Reports);
+const deleteReportsById = deleteOne(Reports);
 
 export {
   multerFileFilter,

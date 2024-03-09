@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import styles from "./styles/Form.module.css";
 import Button from "./Button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
-import { useUrlPosition } from "../hooks/useUrlPosition";
 import Spinner from "./Spinner";
-import ReportMessage from "./ReportMessage";
-import { useReports } from "../contexts/ReportsContext";
 import { useCreateReportMutation } from "../slices/reportsSlice";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Message from "./Message";
 
 function Form() {
   const [createReport, { isLoading: loadingCreate, error }] = useCreateReportMutation();
+  const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const [locationName, setLocationName] = useState("");
@@ -30,11 +28,10 @@ function Form() {
     setLng(params.get('lng'));
   }, [location]);
 
-  // console.log(location)
-
+  
   async function handleSubmit(e) {
     e.preventDefault();
-
+    
     const newReport = {
       summary,
       images,
@@ -44,13 +41,29 @@ function Form() {
       },
     };
 
-    await createReport(newReport);
-    navigate("/app");
+    try {
+      console.log(newReport)
+      await createReport(newReport);
+      navigate("/app");
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   if (loadingCreate) return <Spinner />;
 
+  if (error) {
+    console.log(error?.data?.message)
+    return (
+      <div className={styles.error}>
+        An error occurred: {error.message}
+      </div>
+    );
+  }
+
   return (
+    <>
+    { userInfo ? (
     <form
       className={`${styles.form} ${loadingCreate ? styles.loading : ""}`}
       onSubmit={handleSubmit}
@@ -91,6 +104,13 @@ function Form() {
         <BackButton />
       </div>
     </form>
+    ) : (
+      
+      <Message>
+        Please <Link to='/login'>log in</Link> to write a review{' '}
+      </Message>
+      ) }
+    </>
   );
 }
 
