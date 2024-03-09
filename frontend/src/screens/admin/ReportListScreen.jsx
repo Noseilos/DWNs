@@ -7,7 +7,7 @@ import { useGetOrdersQuery } from '../../slices/ordersSlice'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS } from "chart.js/auto";
 
-const OrderlistScreen = () => {
+const ReportListScreen = () => {
 
   const { data: orders, isLoading, error } = useGetOrdersQuery();
   console.log(orders);
@@ -79,7 +79,7 @@ const OrderlistScreen = () => {
 
   return (
     <>
-      <h1>Orders</h1>
+      <h1>Reports</h1>
       { isLoading ? <Loader /> : error ? (
         <Message variant='danger'>{error?.data?.message || error.error}</Message>
       ) : (
@@ -128,13 +128,13 @@ const OrderlistScreen = () => {
             )) }
           </tbody>
         </Table>
-        <Line data={data} />
-        <Bar data={barData} />
-        <Doughnut data={pieData} />
+        <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/>
+        <Bar data={barData} style={{ background: 'rgba(73, 74, 72, 0.6)' }}/>
+        <Doughnut data={pieData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/>
         </>
       ) }
     </>
   )
 }
 
-export default OrderlistScreen
+export default ReportListScreen

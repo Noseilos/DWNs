@@ -21,9 +21,9 @@ const App = () => {
       <main className={styles.homepage}>
         <Header/>
             <Outlet />
-        <Footer />
         <ToastContainer />
       </main>
+        <Footer />
     </>
   )
 }
