@@ -19,7 +19,7 @@ const ReportDetailScreen = () => {
     return <Spinner />;
   }
   return (
-    <div>
+    <div className="container">
       <section className="section-header">
         <div className="header__hero">
           <div className="header__hero-overlay">&nbsp;</div>
