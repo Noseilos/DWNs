@@ -34,6 +34,16 @@ const Header = () => {
             <NavLink>Home</NavLink>
           </LinkContainer>
         </li>
+        <li>
+          <LinkContainer to="/news">
+            <NavLink>News</NavLink>
+          </LinkContainer>
+        </li>
+        <li>
+          <LinkContainer to="/about">
+            <NavLink>About</NavLink>
+          </LinkContainer>
+        </li>
       </ul>
       <ul>
         {userInfo ? (
