@@ -1,55 +1,36 @@
 import { apiSlice } from './apiSlice'
-import { REPORTS_URL } from '../constants'
+import { REPORTS_URL, UPLOAD_URL } from '../constants'
 
 export const reportsApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        getReports: builder.query({
+            query: () => ({
+                url: REPORTS_URL
+            }),
+            providesTags: ['Reports'],
+            keepUnusedDataFor: 5,
+        }),
         createReport: builder.mutation({
-            query: (report) => ({
-                url: REPORTS_URL,
+            query: (data) => ({
+                url: `${REPORTS_URL}`,
                 method: 'POST',
-                body: { ...report },
+                body: data,
+            }),
+            invalidatesTags: ['Reports'],
+        }),
+        uploadReportImage: builder.mutation({
+            query: (data) => ({
+                url: `${UPLOAD_URL}/reports`,
+                method: 'POST',
+                body: data,
             })
         }),
-        // getReportDetails: builder.query({
-        //     query: (reportId) => ({
-        //         url: `${REPORTS_URL}/${reportId}`,
-        //     }),
-        //     keepUnusedDataFor: 5,
-        // }),
-        // payReport: builder.mutation({
-        //     query: ({reportId, details}) => ({
-        //         url: `${ORDERS_URL}/${reportId}/pay`,
-        //         method: 'PUT',
-        //         body: details,
-        //     })
-        // }),
-        // getPayPalClientId: builder.query({
-        //     query: () => ({
-        //         url: PAYPAL_URL,
-        //     }),
-        //     keepUnusedDataFor: 5,
-        // }),
-        // getMyReports: builder.query({
-        //     query: () => ({
-        //         url: `${ORDERS_URL}/myreports`
-        //     }),
-        //     keepUnusedDataFor: 5,
-        // }),
-        // getReports: builder.query({
-        //     query: () => ({
-        //         url: ORDERS_URL,
-        //     }),
-        //     keepUnusedDataFor: 5,
-        // }),
-        // deliverReport: builder.mutation({
-        //     query: (reportId) => ({
-        //         url: `${ORDERS_URL}/${reportId}/delivered`,
-        //         method: 'PUT'
-        //     })
-        // })
+        
     })
 });
 
 export const {
-    useCreateReportMutation
+    useCreateReportMutation,
+    useGetReportsQuery,
+    useUploadReportImageMutation
 } = reportsApiSlice;

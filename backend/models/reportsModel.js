@@ -3,6 +3,11 @@ import slugify from "slugify";
 
 const reportsSchema = new mongoose.Schema(
   {
+    locationName: {
+      type: String,
+      trim: true,
+      required: [true, 'A report must have a location name'],
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -12,7 +17,7 @@ const reportsSchema = new mongoose.Schema(
     summary: {
       type: String,
       trim: true,
-      required: [true, "A report must have a summary"],
+      required: [true, 'A report must have a summary'],
     },
     images: [String],
     createdAt: {
@@ -44,7 +49,7 @@ reportsSchema.index({ slug: 1 });
 reportsSchema.index({ location: "2dsphere" });
 
 reportsSchema.pre("save", function (next) {
-  this.slug = slugify(this.name, { lower: true });
+  this.slug = slugify(this.locationName, { lower: true });
   next();
 });
 

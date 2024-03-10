@@ -1,91 +1,100 @@
 import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import styles from "./styles/Form.module.css";
 import Button from "./Button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
-import { useUrlPosition } from "../hooks/useUrlPosition";
 import Spinner from "./Spinner";
-import ReportMessage from "./ReportMessage";
-import { useReports } from "../contexts/ReportsContext";
+import { useCreateReportMutation, useUploadReportImageMutation } from "../slices/reportsSlice";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
-export function convertToEmoji(countryCode) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char) => 127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-}
+import Message from "./Message";
 
-const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 function Form() {
-  const [lat, lng] = useUrlPosition();
-  const { createReport, isLoading } = useReports();
+  const [createReport, { isLoading: loadingCreate, error }] = useCreateReportMutation();
+  const [uploadReportImage, { isLoading: loadingUpload }] = useUploadReportImageMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
-  const [reportName, setReportName] = useState("");
+  const [locationName, setLocationName] = useState("");
   const [summary, setSummary] = useState("");
-  const [imageCover, setImageCover] = useState("");
-  const [startLocation, setStartLocation] = useState("");
-  const [geocodingError, setGeocodingError] = useState("");
+  const [images, setImages] = useState("");
 
-  const [isLoadingGeocoding, setIsLoadingGeocoding] = useState(false);
+  const location = useLocation();
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
+
   useEffect(() => {
-    if (!lat && !lng) return;
+    const params = new URLSearchParams(location.search);
+    setLat(params.get('lat'));
+    setLng(params.get('lng'));
+  }, [location]);
 
-    async function fetchReportData() {
-      try {
-        setIsLoadingGeocoding(true);
-        setGeocodingError("");
-        const res = await fetch(`${BASE_URL}?latitude=${lat}&longitude=${lng}`);
-        const data = await res.json();
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
 
-        if (!data.countryCode)
-          throw new Error(
-            "That doesn't seem to be a city. Click somewhere else."
-          );
-        setReportName(data.name || data.locality || "");
-        setStartLocation(`Lat: ${lat}, Lng: ${lng}`);
-      } catch (err) {
-        setGeocodingError(err.message);
-      } finally {
-        setIsLoadingGeocoding(false);
-      }
+    for (let i = 0; i < e.target.files.length; i++) {
+      formData.append('image', e.target.files[i]);
     }
-    fetchReportData();
-  }, [lat, lng]);
 
-  async function handleSubmit(e) {
+    try {
+      const res = await uploadReportImage(formData).unwrap();
+      toast.success(res.message);
+      setImages(images); 
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+      console.log(err?.data?.message || err.error);
+    }
+  };
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
-    if (!reportName ) return;
-
+  
     const newReport = {
-      name: reportName,
-      slug: reportName,
+      _id: userInfo._id,
+      locationName,
       summary,
-      imageCover,
-      images: [imageCover],
-      startLocation,
+      images,
+      location: {
+        type: 'Point',
+        coordinates: [lat, lng],
+      },
     };
-
-    await createReport(newReport);
-    navigate("/app/reports");
+  
+    try {
+      await createReport(newReport).unwrap();
+      navigate("/app");
+      toast.success('Report Submitted');
+    } catch (err) {
+      toast.error(err?.data?.message || err.message);
+    }
   }
-  if (isLoadingGeocoding) return <Spinner />;
-  if (!lat && !lng)
-    return <ReportMessage message="Start by clicking on the map." />;
-  if (geocodingError) return <ReportMessage message={geocodingError} />;
+
+  if (loadingCreate) return <Spinner />;
+
+  if (error) {
+    console.log(error?.data?.message)
+    return (
+      <div className={styles.error}>
+        An error occurred: {error.message}
+      </div>
+    );
+  }
+
   return (
+    <>
+    { userInfo ? (
     <form
-      className={`${styles.form} ${isLoading ? styles.loading : ""}`}
+      className={`${styles.form} ${loadingCreate ? styles.loading : ""}`}
       onSubmit={handleSubmit}
     >
       <div className={styles.row}>
-        <label htmlFor="reportName">Location name</label>
+        <label htmlFor="locationName">Location name</label>
         <input
-          id="reportName"
-          onChange={(e) => setReportName(e.target.value)}
+          id="locationName"
+          value={locationName}
+          onChange={(e) => setLocationName(e.target.value)}
           required
         />
       </div>
@@ -106,16 +115,23 @@ function Form() {
           type="file"
           accept="image/*"
           id="imageCover"
-          onChange={(e) => setImageCover(e.target.value)}
+          onChange={uploadFileHandler}
           required
         />
       </div>
 
       <div className={styles.buttons}>
-        <Button type="primary">Add</Button>
+        <Button type="primary" >Add</Button>
         <BackButton />
       </div>
     </form>
+    ) : (
+      
+      <Message>
+        Please <Link to='/login'>log in</Link> to write a review{' '}
+      </Message>
+      ) }
+    </>
   );
 }
 
