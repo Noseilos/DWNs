@@ -1,122 +1,118 @@
-import { useState, useEffect } from "react"
-import { Form, Button, Row, Col } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
-import Loader from "../components/Loader"
-import { toast } from "react-toastify"
-import { useProfileMutation } from "../slices/usersApiSlice"
-import { setCredentials } from "../slices/authSlice"
+import { useState, useEffect } from "react";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../components/Loader";
+import { toast } from "react-toastify";
+import { useProfileMutation } from "../slices/usersApiSlice";
+import { setCredentials } from "../slices/authSlice";
+import styles from "./styles/ProfileScreen.module.css";
 
 const ProfileScreen = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo);
+  const [updateProfile, { isLoading: loadingProfileUpdate }] =
+    useProfileMutation();
 
-    const { userInfo } = useSelector((state) => state.auth);
-    console.log(userInfo)
-    const [updateProfile, {isLoading: loadingProfileUpdate}] = useProfileMutation();
-
-    useEffect(() => {
-        if (userInfo) {
-            setName(userInfo.name);
-            setEmail(userInfo.email);
-        }
-    }, [userInfo, userInfo.name, userInfo.email]);
-
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        if (password !== confirmPassword) {
-            toast.error('Passwords do not match!');
-        } else {
-            try {
-                const res = await updateProfile({ 
-                    _id: userInfo._id,
-                    name,
-                    email,
-                    password
-                }).unwrap();
-                dispatch(setCredentials(res));
-                toast.success('Profile updated successfully')
-            } catch (err) {
-                toast.error(err?.data?.message || err.error)                
-            }
-        }
+  useEffect(() => {
+    if (userInfo) {
+      setName(userInfo.name);
+      setEmail(userInfo.email);
     }
+  }, [userInfo, userInfo.name, userInfo.email]);
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match!");
+    } else {
+      try {
+        const res = await updateProfile({
+          _id: userInfo._id,
+          name,
+          email,
+          password,
+        }).unwrap();
+        dispatch(setCredentials(res));
+        toast.success("Profile updated successfully");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    }
+  };
 
   return (
-    <Row>
-        <Col md={3}>
-            <h2>User Profile</h2>
+    <div className={styles.profile}>
+      <div className={`${styles.form__group} ${styles.form__photo_upload}`}>
+        <figure htmlFor="image">
+          <img htmlFor="image" src={userInfo.image} alt="profile" className={styles.img} />
+        </figure>
+        <input
+          className={styles.form__upload}
+          type="file"
+          accept="image/*"
+          id="image"
+          name="image"
+        />
+        <label htmlFor="image">Choose New Photo</label>
+      </div>
+      <Form onSubmit={submitHandler} className={styles.form}>
+        <Form.Group controlId="name" className={styles.row}>
+          <Form.Label>Name: </Form.Label>
+          <input
+            type="name"
+            placeholder="Enter Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
+        </Form.Group>
 
-            
-            {/* <BootstrapImage src={userInfo.image} alt={userInfo.name} fluid /> */}
+        <Form.Group controlId="email" className={styles.row}>
+          <Form.Label>Email: </Form.Label>
+          <input
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          ></input>
+        </Form.Group>
 
-            <Form onSubmit={submitHandler}>
-                <Form.Group
-                    controlId='name'
-                    className='my-2'
-                >
-                    <Form.Label>Name: </Form.Label>
-                    <Form.Control
-                        type="name"
-                        placeholder="Enter Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                
-                <Form.Group
-                    controlId='email'
-                    className='my-2'
-                >
-                    <Form.Label>Email: </Form.Label>
-                    <Form.Control
-                        type="email"
-                        placeholder="Enter Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                
-                <Form.Group
-                    controlId='password'
-                    className='my-2'
-                >
-                    <Form.Label>Password: </Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                
-                <Form.Group
-                    controlId='confirmPassword'
-                    className='my-2'
-                >
-                    <Form.Label>Confirm Password: </Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
+        <Form.Group controlId="password" className={styles.row}>
+          <Form.Label>Password: </Form.Label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          ></input>
+        </Form.Group>
 
-                <Button type="submit" variant="primary" className="my-2">
-                    Update
-                </Button>
+        <Form.Group controlId="confirmPassword" className={styles.row}>
+          <Form.Label>Confirm Password: </Form.Label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          ></input>
+        </Form.Group>
 
-                { loadingProfileUpdate && <Loader /> }
-            </Form>
-        </Col>
-    </Row>
-  )
-}
+        <div className={styles.buttons}>
+          <Button type="submit" variant="primary">
+            Update
+          </Button>
+        </div>
 
-export default ProfileScreen
+        {loadingProfileUpdate && <Loader />}
+      </Form>
+    </div>
+  );
+};
+
+export default ProfileScreen;

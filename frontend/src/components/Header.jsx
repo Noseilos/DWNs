@@ -38,7 +38,7 @@ const Header = () => {
       <ul>
         {userInfo ? (
           <li>
-            <figure className="avatar avatar-nav">
+            <figure className="avatar avatar-nav" style={{ marginRight: "-25px" }}>
               <img
                 src={userInfo.image}
                 alt={userInfo && userInfo.name}

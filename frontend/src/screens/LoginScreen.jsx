@@ -75,10 +75,14 @@ const LoginScreen = () => {
           {isLoading && <Loader />}
           <div className={styles.lnk}>
             <label>
-              <Link className={styles.link} to="/">Forgot Password?</Link>
+              <Link className={styles.link} to="/">
+                Forgot Password?
+              </Link>
             </label>
             <label>
-              <Link className={styles.link} to="/register">Don't have an account?</Link>
+              <Link className={styles.link} to="/register">
+                Don't have an account?
+              </Link>
             </label>
           </div>
         </Form>
