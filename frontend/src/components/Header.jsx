@@ -14,6 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
+  
 
   const logoutHandler = async () => {
     try {
@@ -79,6 +80,18 @@ const Header = () => {
                 }}
               >
                 <NavDropdown.Item>Profile</NavDropdown.Item>
+              </LinkContainer>
+              <br />
+              <LinkContainer
+                to="/myreports"
+                style={{
+                  color:
+                    window.location.pathname === "/myreports"
+                      ? "#00c46a"
+                      : "black",
+                }}
+              >
+                <NavDropdown.Item>My Reports</NavDropdown.Item>
               </LinkContainer>
               <br />
               <NavDropdown.Item

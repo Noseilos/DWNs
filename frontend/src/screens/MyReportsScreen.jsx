@@ -2,15 +2,15 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'
-import Message from '../../components/Message'
-import Loader from '../../components/Loader'
-import { useGetReportsQuery } from '../../slices/reportsSlice'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import { useGetMyReportsQuery } from '../slices/reportsSlice'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS } from "chart.js/auto";
 import { format } from "date-fns"
 
-const ReportListScreen = () => {
-  const { data: reports, isLoading, error } = useGetReportsQuery();
+const MyReportsScreen = () => {
+  const { data: reports, isLoading, error } = useGetMyReportsQuery();
 
   if (reports == null) {
     return <Loader />;
@@ -24,7 +24,6 @@ const ReportListScreen = () => {
     return <div>No reports data available.</div>;
   }
 
-  console.log(reports)
   const reportsPerDay = {};
   reports.forEach((report) => {
     const date = new Date(report.createdAt);
@@ -82,37 +81,6 @@ const ReportListScreen = () => {
     },
   };
   
-  const reportsPerLocation = {};
-reports.forEach((report) => {
-  const locationName = report.locationName;
-  reportsPerLocation[locationName] = (reportsPerLocation[locationName] || 0) + 1;
-});
-
-const doughnutData = {
-  labels: Object.keys(reportsPerLocation),
-  datasets: [
-    {
-      data: Object.values(reportsPerLocation),
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
 
   return (
     <>
@@ -156,11 +124,11 @@ const doughnutData = {
 
         <Bar data={barChartData} options={chartOptions} />
         {/* <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/> */}
-        <Doughnut data={doughnutData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/>
+        {/* <Doughnut data={pieData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/> */}
         </>
       )}
     </>
   );
 };
 
-export default ReportListScreen;
+export default MyReportsScreen;

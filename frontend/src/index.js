@@ -31,6 +31,7 @@ import AppLayout from "./screens/AppLayout";
 import ReportDetailScreen from "./screens/ReportDetailScreen";
 import AboutScreen from "./screens/AboutScreen";
 import NewsScreen from "./screens/NewsScreen";
+import MyReportsScreen from "./screens/MyReportsScreen";
 
 // --- COMPONENT IMPORTS
 import PrivateRoute from "./components/PrivateRoute";
@@ -46,6 +47,7 @@ const router = createBrowserRouter(
       <Route path="/report/:id" element={<ReportDetailScreen />} />
       <Route path="/about" element={<AboutScreen />} />
       <Route path="/news" element={<NewsScreen />} />
+      <Route path="/myreports" element={<MyReportsScreen />} />
 
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfileScreen />}></Route>

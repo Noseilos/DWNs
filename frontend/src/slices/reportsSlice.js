@@ -31,6 +31,12 @@ export const reportsApiSlice = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5,
         }),
+        getMyReports: builder.query({
+            query: () => ({
+                url: `${REPORTS_URL}/myreports`
+            }),
+            keepUnusedDataFor: 5,
+        }),
         
     })
 });
@@ -39,5 +45,6 @@ export const {
     useCreateReportMutation,
     useGetReportsQuery,
     useUploadReportImageMutation,
-    useGetReportDetailsQuery
+    useGetReportDetailsQuery,
+    useGetMyReportsQuery
 } = reportsApiSlice;
