@@ -27,7 +27,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
 import AppLayout from './screens/AppLayout';
-// import ProtectedRoute from './screens/ProtectedRoute';
+import ReportDetailScreen from './screens/ReportDetailScreen'
 
 // --- COMPONENT IMPORTS
 import PrivateRoute from './components/PrivateRoute';
@@ -42,6 +42,7 @@ const router = createBrowserRouter(
       <Route index={ true } path='/' element={ <HomeScreen /> }/>
       <Route path='/login' element={ <LoginScreen /> }/>
       <Route path='/register' element={ <RegisterScreen /> }/>
+        <Route path='/report/:id' element={ <ReportDetailScreen /> }/>
 
       <Route path='' element={ <PrivateRoute /> }>
         <Route path='/profile' element={ <ProfileScreen /> }></Route>
@@ -54,6 +55,7 @@ const router = createBrowserRouter(
 
       <Route path='' element={ <AdminRoute /> }>
         <Route path='/admin/reports' element={ <ReportListScreen /> }/>
+        <Route path='/admin/report/:id' element={ <ReportDetailScreen /> }/>
         <Route path='/admin/users' element={ <UserListScreen /> }/>
         <Route path='/admin/user/edit/:id' element={ <UserEditScreen /> }/>
       </Route>

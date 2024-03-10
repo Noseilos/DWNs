@@ -1,5 +1,7 @@
 import Reports from '../models/reportsModel.js'
 import catchAsync from '../utils/catchAsync.js';
+import asyncHandler from '../middleware/asyncHandler.js'
+
 import AppError from '../utils/appError.js';
 import { getAll, getOne, updateOne, deleteOne } from './handlerFactory.js'
 
@@ -35,15 +37,11 @@ const createReports = catchAsync(async (req, res, next) => {
   }
 });
 
-const getAllReports = catchAsync(async (req, res, next) => {
-  const reports = await Reports.find()
+const getAllReports = asyncHandler(async (req, res, next) => {
+  const reports = await Reports.find({})
 
   console.log(reports)
-  res.status(200).json({
-    status: 'success',
-    results: reports.length,
-    reports
-  });
+  res.status(200).json(reports);
 })
 
 const getAllReportsById = getOne(Reports);
