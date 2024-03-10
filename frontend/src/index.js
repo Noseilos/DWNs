@@ -28,7 +28,9 @@ import UserListScreen from "./screens/admin/UserListScreen";
 import UserEditScreen from "./screens/admin/UserEditScreen";
 import ChartLayout from "./screens/admin/ChartLayout";
 import AppLayout from "./screens/AppLayout";
-import ReportDetailScreen from './screens/ReportDetailScreen'
+import ReportDetailScreen from "./screens/ReportDetailScreen";
+import AboutScreen from "./screens/AboutScreen";
+import NewsScreen from "./screens/NewsScreen";
 
 // --- COMPONENT IMPORTS
 import PrivateRoute from "./components/PrivateRoute";
@@ -37,11 +39,13 @@ import Form from "./components/Form";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={ <App /> }>
-      <Route index={ true } path='/' element={ <HomeScreen /> }/>
-      <Route path='/login' element={ <LoginScreen /> }/>
-      <Route path='/register' element={ <RegisterScreen /> }/>
-        <Route path='/report/:id' element={ <ReportDetailScreen /> }/>
+    <Route path="/" element={<App />}>
+      <Route index={true} path="/" element={<HomeScreen />} />
+      <Route path="/login" element={<LoginScreen />} />
+      <Route path="/register" element={<RegisterScreen />} />
+      <Route path="/report/:id" element={<ReportDetailScreen />} />
+      <Route path="/about" element={<AboutScreen />} />
+      <Route path="/news" element={<NewsScreen />} />
 
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfileScreen />}></Route>
@@ -54,7 +58,7 @@ const router = createBrowserRouter(
 
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/reports" element={<ReportListScreen />} />
-        <Route path='/admin/report/:id' element={ <ReportDetailScreen /> }/>
+        <Route path="/admin/report/:id" element={<ReportDetailScreen />} />
         <Route path="/admin/users" element={<UserListScreen />} />
         <Route path="/admin/user/edit/:id" element={<UserEditScreen />} />
         <Route path="/admin/charts" element={<ChartLayout />} />
