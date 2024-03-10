@@ -3,7 +3,6 @@ import React from 'react'
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useGetReportDetailsQuery } from "../slices/reportsSlice";
 import Spinner from "../components/Spinner";
-// import { displayMap } from '../assets/js/mapbox';
 import Mapbox from './MapBox';
 import '../assets/css/style.css'
 
@@ -29,6 +28,7 @@ const ReportDetailScreen = () => {
           <div className="header__hero-overlay">&nbsp;</div>
           <img className="header__hero-img" src={report.images[0]} alt={report.locationName} />
         </div>
+        
 
         <div className="heading-box">
           <h1 className="heading-primary">
@@ -44,16 +44,17 @@ const ReportDetailScreen = () => {
         </div>
       </section>
 
+      <section className="section-map">
+        {/* <div id="map" data-locations={JSON.stringify([report.location])} data-details={JSON.stringify([report.locationName])}></div> */}
+        <Mapbox locations={[report.location]} details={report}/>
+      </section>
+
       <section className="section-pictures">
         {report.images.map((img, i) => (
           <div className="picture-box" key={i}>
             <img className={`picture-box__img picture-box__img--${i + 1}`} src={img} alt={`The Park Camper Tour ${i + 1}`} />
           </div>
         ))}
-      </section>
-
-      <section className="section-map">
-        <Mapbox locations={[report.location]} />
       </section>
     </div>
   )

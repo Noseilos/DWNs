@@ -2,7 +2,7 @@
 
 import mapboxgl from 'mapbox-gl';
 
-export const displayMap = (locations) => {
+export const displayMap = (locations, details) => {
   mapboxgl.accessToken =
     'pk.eyJ1Ijoibm9zZWlsb3MiLCJhIjoiY2x0NnRscm1sMGFwdzJpbTdmY3Y0bnduYSJ9.OfpiD5hWqBoL0VLC5jRpWA';
   const map = new mapboxgl.Map({
@@ -31,6 +31,7 @@ export const displayMap = (locations) => {
       offset: 30,
     })
       .setLngLat(loc.coordinates)
+      .setHTML(`<p>${details}</p>`)
       .addTo(map);
 
     bounds.extend(loc.coordinates);

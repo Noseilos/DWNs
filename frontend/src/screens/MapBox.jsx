@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 
-const Mapbox = ({ locations }) => {
+const Mapbox = ({ locations, details }) => {
   const mapContainer = useRef(null);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ const Mapbox = ({ locations }) => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/noseilos/clt6v0y6100gf01o89dta3o4w',
-      scrollZoom: false,
+      scrollZoom: true,
     });
 
     const bounds = new mapboxgl.LngLatBounds();
@@ -27,9 +27,10 @@ const Mapbox = ({ locations }) => {
         .addTo(map);
 
       new mapboxgl.Popup({
-        offset: 10,
+        offset: 30,
       })
         .setLngLat(loc.coordinates)
+        .setHTML(`<p>${details.locationName}</p>`)
         .addTo(map);
 
       bounds.extend(loc.coordinates);
@@ -37,10 +38,10 @@ const Mapbox = ({ locations }) => {
 
     map.fitBounds(bounds, {
       padding: {
-        top: 150,
-        bottom: 150,
-        left: 100,
-        right: 100,
+        top: 200,
+        bottom: 200,
+        left: 150,
+        right: 150,
       },
     });
 
