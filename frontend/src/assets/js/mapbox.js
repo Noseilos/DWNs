@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+import mapboxgl from 'mapbox-gl';
+
 export const displayMap = (locations) => {
   mapboxgl.accessToken =
     'pk.eyJ1Ijoibm9zZWlsb3MiLCJhIjoiY2x0NnRscm1sMGFwdzJpbTdmY3Y0bnduYSJ9.OfpiD5hWqBoL0VLC5jRpWA';
@@ -17,6 +19,7 @@ export const displayMap = (locations) => {
     const el = document.createElement('div');
     el.className = 'marker';
 
+    console.log(loc.coordinates)
     new mapboxgl.Marker({
       element: el,
       anchor: 'bottom',
@@ -28,7 +31,6 @@ export const displayMap = (locations) => {
       offset: 30,
     })
       .setLngLat(loc.coordinates)
-      .setHTML(`<p>Day: ${loc.day}, ${loc.description}</p>`)
       .addTo(map);
 
     bounds.extend(loc.coordinates);

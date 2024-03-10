@@ -3,6 +3,8 @@ import React from 'react'
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useGetReportDetailsQuery } from "../slices/reportsSlice";
 import Spinner from "../components/Spinner";
+// import { displayMap } from '../assets/js/mapbox';
+import Mapbox from './MapBox';
 import '../assets/css/style.css'
 
 const ReportDetailScreen = () => {
@@ -15,9 +17,11 @@ const ReportDetailScreen = () => {
     error,
   } = useGetReportDetailsQuery(reportId);
   console.log(report)
+
   if (isLoading) {
     return <Spinner />;
   }
+
   return (
     <div>
       <section className="section-header">
@@ -49,7 +53,7 @@ const ReportDetailScreen = () => {
       </section>
 
       <section className="section-map">
-        <div id="map" data-locations={JSON.stringify([report.location])}></div>
+        <Mapbox locations={[report.location]} />
       </section>
     </div>
   )
