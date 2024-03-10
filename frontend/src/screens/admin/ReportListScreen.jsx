@@ -1,15 +1,16 @@
-import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
-import { FaTimes } from "react-icons/fa";
-import Message from "../../components/Message";
-import Loader from "../../components/Loader";
-import { useGetReportsQuery } from "../../slices/reportsSlice";
-import { Line, Bar, Doughnut } from "react-chartjs-2";
-import { format } from "date-fns";
+import { LinkContainer } from 'react-router-bootstrap'
+import { useEffect, useState } from 'react';
+import { Table, Button } from 'react-bootstrap'
+import { FaTimes } from 'react-icons/fa'
+import Message from '../../components/Message'
+import Loader from '../../components/Loader'
+import { useGetReportsQuery } from '../../slices/reportsSlice'
+import { Line, Bar, Doughnut } from 'react-chartjs-2'
+import { Chart as ChartJS } from "chart.js/auto";
+import { format } from "date-fns"
 
 const ReportListScreen = () => {
   const { data: reports, isLoading, error } = useGetReportsQuery();
-  console.log(reports);
 
   if (reports == null) {
     return <Loader />;
@@ -23,27 +24,63 @@ const ReportListScreen = () => {
     return <div>No reports data available.</div>;
   }
 
-  const groupedReports = reports.reduce((acc, report) => {
-    const date = format(new Date(report.createdAt), "yyyy-MM-dd");
-    acc[date] = (acc[date] || 0) + 1;
-    return acc;
-  }, {});
+  const reportsPerDay = {};
+  reports.forEach((report) => {
+    const date = new Date(report.createdAt);
 
-  const dates = Object.keys(groupedReports);
-  const reportCounts = Object.values(groupedReports);
+    if (!isNaN(date.getTime())) {
+      const formattedDate = date.toLocaleDateString();
+      reportsPerDay[formattedDate] = (reportsPerDay[formattedDate] || 0) + 1;
+    }
+  });
 
-  const data = {
-    labels: dates,
+  const barChartData = {
+    labels: Object.keys(reportsPerDay),
     datasets: [
       {
-        label: "Report Frequency",
-        data: reportCounts,
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgb(75, 192, 192)",
-        borderWidth: 1,
+        label: 'Reports per Day',
+        backgroundColor: 'rgba(73, 74, 72, 1)',
+        borderColor: 'rgba(73, 74, 72, 1)',
+        borderWidth: 3,
+        hoverBackgroundColor: 'rgba(75, 209, 200, 1)',
+        hoverBorderColor: 'rgba(88, 176, 0, 1)',
+        data: Object.values(reportsPerDay),
       },
     ],
   };
+
+  const chartOptions = {
+    scales: {
+      x: { 
+        title: {
+          display: true,
+          text: 'Date',
+          color: 'rgba(120, 144, 156, 1)', 
+        },
+        ticks: {
+          color: 'rgba(120, 144, 156, 1)', 
+        },
+        grid: {
+          color: 'rgba(200, 200, 200, 1)',
+        },
+      },
+      y: { 
+        title: {
+          display: true,
+          text: 'Number of Reports',
+          color: 'rgba(120, 144, 156, 1)', 
+        },
+        ticks: {
+          color: 'rgba(120, 144, 156, 1)', 
+        },
+        grid: {
+          color: 'rgba(200, 200, 200, 1)',
+        },
+        beginAtZero: true,
+      },
+    },
+  };
+  
 
   return (
     <>
@@ -56,53 +93,38 @@ const ReportListScreen = () => {
         </Message>
       ) : (
         <>
-          <Table striped hover responsive className="table-sm">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>USER</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
-                <th>PAID</th>
-                <th>DELIVERED</th>
-                <th></th>
+        <Table striped hover responsive className='table-sm'>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>USER</th>
+              <th>LOCATION</th>
+              <th>SUMMARY</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            { Array.isArray(reports) && reports.map((report) => (
+              <tr key={report.id}>
+                <td>{report.id}</td>
+                <td>{report.user}</td>
+                <td>{report.locationName}</td>
+                <td>{report.summary}</td>
+                <td>
+                  <LinkContainer to={`/report/${report.id}`}>
+                    <Button variant='light' className='btn-sm'>
+                      Details
+                    </Button>
+                  </LinkContainer>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {reports.map((report) => (
-                <tr key={report._id}>
-                  <td>{report._id}</td>
-                  <td>{report.user && report.user.name}</td>
-                  <td>{report.createdAt.substring(0, 10)}</td>
-                  <td>₱{parseFloat(report.totalPrice).toLocaleString()}</td>
-                  <td>
-                    {report.isPaid ? (
-                      report.paidAt.substring(0, 10)
-                    ) : (
-                      <FaTimes style={{ color: "red" }} />
-                    )}
-                  </td>
-                  <td>
-                    {report.isDelivered ? (
-                      report.deliveredAt.substring(0, 10)
-                    ) : (
-                      <FaTimes style={{ color: "red" }} />
-                    )}
-                  </td>
-                  <td>
-                    <LinkContainer to={`/report/${report._id}`}>
-                      <Button variant="light" className="btn-sm">
-                        Details
-                      </Button>
-                    </LinkContainer>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          {/* <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/> */}
-          <Bar data={data} style={{ background: "rgba(73, 74, 72, 0.6)" }} />
-          {/* <Doughnut data={pieData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/> */}
+            )) }
+          </tbody>
+        </Table>
+
+        <Bar data={barChartData} options={chartOptions} />
+        {/* <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/> */}
+        {/* <Doughnut data={pieData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/> */}
         </>
       )}
     </>

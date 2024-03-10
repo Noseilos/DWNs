@@ -1,8 +1,8 @@
 import express from 'express'
 const router = express.Router();
 
-import { getAllReports, createReports, getAllReportsById, updateReportsById, deleteReportsById } from '../controllers/reportsController.js'
-import { protect, restrictTo } from '../controllers/authController.js'
+import { getAllReports, createReports, getReportsById, updateReportsById, deleteReportsById } from '../controllers/reportsController.js'
+import { protect, admin } from "../middleware/authMiddleware.js";
 
 
 router
@@ -14,15 +14,15 @@ router
 
 router
   .route(`/:id`)
-  .get(getAllReportsById)
+  .get(getReportsById)
   .patch(
     protect, 
-    restrictTo('admin'), 
+    admin, 
     updateReportsById
   )
   .delete(
     protect,
-    restrictTo('admin'),
+    admin, 
     deleteReportsById,
   );
 

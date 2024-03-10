@@ -41,7 +41,7 @@ function Form() {
     try {
       const res = await uploadReportImage(formData).unwrap();
       toast.success(res.message);
-      setImages(images); 
+      setImages(res.image); 
     } catch (err) {
       toast.error(err?.data?.message || err.error);
       console.log(err?.data?.message || err.error);
@@ -115,6 +115,7 @@ function Form() {
           type="file"
           accept="image/*"
           id="imageCover"
+          multiple
           onChange={uploadFileHandler}
           required
         />
