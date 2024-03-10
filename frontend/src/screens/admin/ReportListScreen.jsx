@@ -3,78 +3,47 @@ import { Table, Button } from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
-import { useGetOrdersQuery } from '../../slices/ordersSlice'
+import { useGetReportsQuery } from '../../slices/reportsSlice'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
-import { Chart as ChartJS } from "chart.js/auto";
+import { format } from "date-fns"
 
 const ReportListScreen = () => {
 
-  const { data: orders, isLoading, error } = useGetOrdersQuery();
-  console.log(orders);
+  const { data: reports, isLoading, error } = useGetReportsQuery();
+  console.log(reports);
 
-  if (orders == null) {
+  if (reports == null) {
     return <Loader />;
   }
 
-  const dates = orders.map((order) => order.createdAt.substring(0, 10));
-  const totalPrices = orders.map((order) => order.totalPrice);
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!reports) {
+    return <div>No reports data available.</div>;
+  }
+
+  const groupedReports = reports.reduce((acc, report) => {
+    const date = format(new Date(report.createdAt), 'yyyy-MM-dd');
+    acc[date] = (acc[date] || 0) + 1;
+    return acc;
+  }, {});
+
+  const dates = Object.keys(groupedReports);
+  const reportCounts = Object.values(groupedReports);
 
   const data = {
     labels: dates,
     datasets: [
       {
-        label: 'Total Price',
-        data: totalPrices,
-        fill: false,
-        backgroundColor: 'rgb(75, 192, 192)',
-        borderColor: 'rgba(75, 192, 192, 0.2)',
+        label: 'Report Frequency',
+        data: reportCounts,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgb(75, 192, 192)',
+        borderWidth: 1,
       },
     ],
-  };
-
-  const products = orders.flatMap((order) =>
-    order.orderItems.map((item) => item.name)
-  );
-  const productCounts = products.reduce((acc, product) => {
-    acc[product] = (acc[product] || 0) + 1;
-    return acc;
-  }, {});
-
-  const barData = {
-    labels: Object.keys(productCounts),
-    datasets: [
-      {
-        label: 'Sales',
-        data: Object.values(productCounts),
-        backgroundColor: 'rgb(75, 192, 192)',
-        borderColor: 'rgba(75, 192, 192, 0.2)',
-      },
-    ],
-  };
-
-  const isPaidCount = orders.filter((order) => order.isPaid).length;
-  const isDeliveredCount = orders.filter((order) => order.isDelivered).length;
-
-  const pieData = {
-    labels: ['Paid', 'Not Paid', 'Delivered', 'Not Delivered'],
-    datasets: [
-      {
-        data: [isPaidCount, orders.length - isPaidCount, isDeliveredCount, orders.length - isDeliveredCount],
-        backgroundColor: ['green', 'red', 'blue', 'orange'],
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
   };
 
   return (
@@ -97,28 +66,28 @@ const ReportListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            { orders.map((order) => (
-              <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>{ order.user && order.user.name }</td>
-                <td>{ order.createdAt.substring(0, 10) }</td>
-                <td>₱{ parseFloat(order.totalPrice).toLocaleString() }</td>
+            { reports.map((report) => (
+              <tr key={report._id}>
+                <td>{report._id}</td>
+                <td>{ report.user && report.user.name }</td>
+                <td>{ report.createdAt.substring(0, 10) }</td>
+                <td>₱{ parseFloat(report.totalPrice).toLocaleString() }</td>
                 <td>
-                  { order.isPaid ? (
-                    order.paidAt.substring(0, 10)
+                  { report.isPaid ? (
+                    report.paidAt.substring(0, 10)
                   ) : (
                     <FaTimes style={{ color: 'red' }} />
                   )}
                 </td>
                 <td>
-                  { order.isDelivered ? (
-                    order.deliveredAt.substring(0, 10)
+                  { report.isDelivered ? (
+                    report.deliveredAt.substring(0, 10)
                   ) : (
                     <FaTimes style={{ color: 'red' }} />
                   )}
                 </td>
                 <td>
-                  <LinkContainer to={`/order/${order._id}`}>
+                  <LinkContainer to={`/report/${report._id}`}>
                     <Button variant='light' className='btn-sm'>
                       Details
                     </Button>
@@ -128,9 +97,9 @@ const ReportListScreen = () => {
             )) }
           </tbody>
         </Table>
-        <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/>
-        <Bar data={barData} style={{ background: 'rgba(73, 74, 72, 0.6)' }}/>
-        <Doughnut data={pieData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/>
+        {/* <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/> */}
+        <Bar data={data} style={{ background: 'rgba(73, 74, 72, 0.6)' }}/>
+        {/* <Doughnut data={pieData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/> */}
         </>
       ) }
     </>

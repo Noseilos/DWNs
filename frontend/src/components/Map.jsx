@@ -10,11 +10,9 @@ import {
 } from "react-leaflet";
 import styles from "./styles/Map.module.css";
 import { useEffect } from "react";
-import { useReports } from "../contexts/ReportsContext";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 
 function Map() {
-  const { cities } = useReports();
 
   const [mapPosition, setMapPosition] = useState([
     14.508505572327003,
@@ -39,17 +37,6 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        {cities &&
-          cities.map((city) => (
-            <Marker
-              position={[city.position.lat, city.position.lng]}
-              key={city.id}
-            >
-              <Popup>
-                <span>{city.emoji}</span> <span>{city.cityName}</span>
-              </Popup>
-            </Marker>
-          ))}
         <ChangeCenter position={mapPosition} />
         <DetectClick />
       </MapContainer>

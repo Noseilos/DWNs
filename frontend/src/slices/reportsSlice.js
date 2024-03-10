@@ -1,20 +1,36 @@
 import { apiSlice } from './apiSlice'
-import { REPORTS_URL } from '../constants'
+import { REPORTS_URL, UPLOAD_URL } from '../constants'
 
 export const reportsApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        getReports: builder.query({
+            query: () => ({
+                url: REPORTS_URL
+            }),
+            providesTags: ['Reports'],
+            keepUnusedDataFor: 5,
+        }),
         createReport: builder.mutation({
-            query: (report) => ({
+            query: (data) => ({
                 url: `${REPORTS_URL}`,
                 method: 'POST',
-                body: report,
+                body: data,
             }),
             invalidatesTags: ['Reports'],
+        }),
+        uploadReportImage: builder.mutation({
+            query: (data) => ({
+                url: `${UPLOAD_URL}/reports`,
+                method: 'POST',
+                body: data,
+            })
         }),
         
     })
 });
 
 export const {
-    useCreateReportMutation
+    useCreateReportMutation,
+    useGetReportsQuery,
+    useUploadReportImageMutation
 } = reportsApiSlice;

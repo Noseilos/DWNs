@@ -1,67 +1,21 @@
-import multer from 'multer'
-import sharp from 'sharp'
 import Reports from '../models/reportsModel.js'
 import catchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/appError.js';
 import { getAll, getOne, updateOne, deleteOne } from './handlerFactory.js'
 
-
-const multerStorage = multer.memoryStorage();
-
-const multerFileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image')) {
-    cb(null, true);
-  } else {
-    cb(new AppError('Not an image! Please upload only images.', 400), false);
-  }
-};
-
-const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFileFilter,
-});
-
-const uploadReportImages = upload.fields([
-  { name: "images", maxCount: 3 }
-])
-
-const resizeReportImages = catchAsync(async (req, res, next) => {
-  console.log(req.files)
-
-  if(!req.files.images) {
-    return next()
-  }
-  req.body.images = []
-
-  await Promise.all(
-    req.files.images.map(async(file, i) => {
-      const fileName = `report-${req.params.id}-${Date.now()}-${i + 1}.jpeg`
-      
-      await sharp(file.buffer)
-        .resize(2000, 1333)
-        .toFormat('jpeg')
-        .jpeg({ quality: 90 })
-        .toFile(`uploads/reports/${fileName}`);
-
-      req.body.images.push(fileName)
-  }))
-
-
-  next()
-})
-
 const createReports = catchAsync(async (req, res, next) => {
   try {
-    const { summary, images, location } = req.body;
-    const { _id: user } = req.user; 
+    
+    const { locationName, summary, images, location, _id } = req.body;
 
     const report = new Reports({
-      user,
+      user: _id,
+      locationName,
       summary,
       images,
       location: {
         type: 'Point',
-        coordinates: [location.lat, location.lng],
+        coordinates: [location.coordinates[1], location.coordinates[0]],
       },
     });
 
@@ -81,15 +35,22 @@ const createReports = catchAsync(async (req, res, next) => {
   }
 });
 
-const getAllReports = getAll(Reports);
+const getAllReports = catchAsync(async (req, res, next) => {
+  const reports = await Reports.find()
+
+  console.log(reports)
+  res.status(200).json({
+    status: 'success',
+    results: reports.length,
+    reports
+  });
+})
+
 const getAllReportsById = getOne(Reports);
 const updateReportsById = updateOne(Reports);
 const deleteReportsById = deleteOne(Reports);
 
 export {
-  multerFileFilter,
-  uploadReportImages,
-  resizeReportImages,
   createReports,
   getAllReports,
   getAllReportsById,

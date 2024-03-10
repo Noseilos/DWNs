@@ -75,15 +75,6 @@ const Header = () => {
               <LinkContainer style={{ color: "black" }} to="/admin/users">
                 <NavDropdown.Item>Users</NavDropdown.Item>
               </LinkContainer>
-              {/* <LinkContainer style={{ color: "black" }} to="/admin/products">
-                <NavDropdown.Item>Products</NavDropdown.Item>
-              </LinkContainer>
-              <LinkContainer style={{ color: "black" }} to="/admin/categories">
-                <NavDropdown.Item>Categories</NavDropdown.Item>
-              </LinkContainer>
-              <LinkContainer style={{ color: "black" }} to="/admin/brands">
-                <NavDropdown.Item>Brands</NavDropdown.Item>
-              </LinkContainer> */}
               <LinkContainer style={{ color: "black" }} to="/admin/reports">
                 <NavDropdown.Item>Reports</NavDropdown.Item>
               </LinkContainer>

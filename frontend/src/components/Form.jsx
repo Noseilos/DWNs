@@ -4,19 +4,22 @@ import Button from "./Button";
 import { Link, useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
 import Spinner from "./Spinner";
-import { useCreateReportMutation } from "../slices/reportsSlice";
+import { useCreateReportMutation, useUploadReportImageMutation } from "../slices/reportsSlice";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
 import Message from "./Message";
 
 function Form() {
   const [createReport, { isLoading: loadingCreate, error }] = useCreateReportMutation();
+  const [uploadReportImage, { isLoading: loadingUpload }] = useUploadReportImageMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const [locationName, setLocationName] = useState("");
   const [summary, setSummary] = useState("");
-  const [images, setImageCover] = useState("");
+  const [images, setImages] = useState("");
 
   const location = useLocation();
   const [lat, setLat] = useState("");
@@ -28,11 +31,29 @@ function Form() {
     setLng(params.get('lng'));
   }, [location]);
 
-  
-  async function handleSubmit(e) {
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+
+    for (let i = 0; i < e.target.files.length; i++) {
+      formData.append('image', e.target.files[i]);
+    }
+
+    try {
+      const res = await uploadReportImage(formData).unwrap();
+      toast.success(res.message);
+      setImages(images); 
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+      console.log(err?.data?.message || err.error);
+    }
+  };
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    
+  
     const newReport = {
+      _id: userInfo._id,
+      locationName,
       summary,
       images,
       location: {
@@ -40,13 +61,13 @@ function Form() {
         coordinates: [lat, lng],
       },
     };
-
+  
     try {
-      console.log(newReport)
-      await createReport(newReport);
+      await createReport(newReport).unwrap();
       navigate("/app");
+      toast.success('Report Submitted');
     } catch (err) {
-      console.error(err);
+      toast.error(err?.data?.message || err.message);
     }
   }
 
@@ -94,13 +115,13 @@ function Form() {
           type="file"
           accept="image/*"
           id="imageCover"
-          onChange={(e) => setImageCover(e.target.value)}
+          onChange={uploadFileHandler}
           required
         />
       </div>
 
       <div className={styles.buttons}>
-        <Button type="primary">Add</Button>
+        <Button type="primary" >Add</Button>
         <BackButton />
       </div>
     </form>
