@@ -39,19 +39,26 @@ const createReports = catchAsync(async (req, res, next) => {
 
 const getAllReports = asyncHandler(async (req, res, next) => {
   const reports = await Reports.find({})
-
-  console.log(reports)
   res.status(200).json(reports);
 })
 
-const getAllReportsById = getOne(Reports);
+const getReportsById = asyncHandler(async (req, res) => {
+  const report = await Reports.findById(req.params.id);
+
+  if (report) {
+      return res.json(report);
+  } else {
+      res.status(404);
+      throw new Error('Resource not found');
+  }
+})
 const updateReportsById = updateOne(Reports);
 const deleteReportsById = deleteOne(Reports);
 
 export {
   createReports,
   getAllReports,
-  getAllReportsById,
+  getReportsById,
   updateReportsById,
   deleteReportsById
 }
