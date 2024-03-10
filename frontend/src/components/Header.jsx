@@ -38,7 +38,10 @@ const Header = () => {
       <ul>
         {userInfo ? (
           <li>
-            <figure className="avatar avatar-nav" style={{ marginRight: "-25px" }}>
+            <figure
+              className="avatar avatar-nav"
+              style={{ marginRight: "-25px" }}
+            >
               <img
                 src={userInfo.image}
                 alt={userInfo && userInfo.name}
@@ -56,7 +59,15 @@ const Header = () => {
         {userInfo && (
           <li>
             <NavDropdown title={userInfo.name} id="username">
-              <LinkContainer to="/profile" style={{ color: "black" }}>
+              <LinkContainer
+                to="/profile"
+                style={{
+                  color:
+                    window.location.pathname === "/profile"
+                      ? "#00c46a"
+                      : "black",
+                }}
+              >
                 <NavDropdown.Item>Profile</NavDropdown.Item>
               </LinkContainer>
               <br />
@@ -72,11 +83,38 @@ const Header = () => {
         {userInfo && userInfo.isAdmin && (
           <li>
             <NavDropdown title="Admin" id="adminMenu">
-              <LinkContainer style={{ color: "black" }} to="/admin/users">
+              <LinkContainer
+                style={{
+                  color:
+                    window.location.pathname === "/admin/users"
+                      ? "#00c46a"
+                      : "black",
+                }}
+                to="/admin/users"
+              >
                 <NavDropdown.Item>Users</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer style={{ color: "black" }} to="/admin/reports">
+              <LinkContainer
+                style={{
+                  color:
+                    window.location.pathname === "/admin/reports"
+                      ? "#00c46a"
+                      : "black",
+                }}
+                to="/admin/reports"
+              >
                 <NavDropdown.Item>Reports</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer
+                style={{
+                  color:
+                    window.location.pathname === "/admin/charts"
+                      ? "#00c46a"
+                      : "black",
+                }}
+                to="/admin/charts"
+              >
+                <NavDropdown.Item>Charts</NavDropdown.Item>
               </LinkContainer>
             </NavDropdown>
           </li>

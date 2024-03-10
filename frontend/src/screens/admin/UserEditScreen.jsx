@@ -5,10 +5,10 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import {
   useGetUserDetailsQuery,
-  useUpdateUserMutation
+  useUpdateUserMutation,
 } from "../../slices/usersApiSlice";
 import FormContainer from "../../components/FormContainer";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const UserEditScreen = () => {
   const { id: userId } = useParams();
@@ -24,7 +24,7 @@ const UserEditScreen = () => {
     refetch,
   } = useGetUserDetailsQuery(userId);
 
-  const [updateUser, {isLoading: loadingUpdate}] = useUpdateUserMutation();
+  const [updateUser, { isLoading: loadingUpdate }] = useUpdateUserMutation();
 
   const navigate = useNavigate();
 
@@ -39,68 +39,68 @@ const UserEditScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-        await updateUser({ userId, name, email, isAdmin });
-        toast.success('User Updated Successfully');
-        refetch();
-        navigate('/admin/users')
+      await updateUser({ userId, name, email, isAdmin });
+      toast.success("User Updated Successfully");
+      refetch();
+      navigate("/admin/users");
     } catch (err) {
-        toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || err.error);
     }
-  }
+  };
 
-  return <>
-    <Link to={`/admin/users`} className="btn btn-light my-3">
-      Go Back
-    </Link>
+  return (
+    <>
+      <Link to={`/admin/users`} className="btn btn-light my-3">
+        Go Back
+      </Link>
 
-    <FormContainer>
-      <h1>Edit User</h1>
-      { loadingUpdate && <Loader /> }
+      <FormContainer>
+        <h1>Edit User</h1>
+        {loadingUpdate && <Loader />}
 
-      { isLoading ? <Loader /> : error ? (
-        <Message variant='danger'>
-          {error}
-        </Message>
-      ) : (
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">{error}</Message>
+        ) : (
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="name" className="my-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-        <Form onSubmit={ submitHandler }>
-          <Form.Group controlId="name" className="my-3">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          
-          <Form.Group controlId="email" className="my-3">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group controlId="email" className="my-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group controlId="isAdmin" className="my-2">
-            <Form.Check
+            <Form.Group controlId="isAdmin" className="my-2">
+              <Form.Check
                 type="checkbox"
-                label='Is Admin'
+                label="Is Admin"
                 checked={isAdmin}
                 onChange={(e) => setIsAdmin(e.target.checked)}
-            >
-            </Form.Check>
-          </Form.Group>
+              ></Form.Check>
+            </Form.Group>
 
-          <Button type="submit" variant="primary" className="my-2">
-            Update
-          </Button>
-        </Form>
-      )}
-    </FormContainer>
-  </>;
+            <Button type="submit" variant="primary" className="my-2">
+              Update
+            </Button>
+          </Form>
+        )}
+      </FormContainer>
+    </>
+  );
 };
 
 export default UserEditScreen;

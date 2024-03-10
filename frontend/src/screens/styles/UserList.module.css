@@ -1,0 +1,115 @@
+/* styles/UserList.module.css */
+.userlist_container {
+  display: flex;
+  justify-content: center;
+  background-color: none;
+  align-items: center;
+  height: 100%;
+}
+
+.userlist {
+  width: 100%;
+  max-width: 1000px;
+  flex-direction: column;
+  background-color: var(--color-dark--2);
+  border-radius: 7px;
+  padding: 2rem 3rem;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.userlist_title h4{
+    font-size: 4rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+    float: left;
+    text-align: center; /* Center align the title within its container */
+  }
+  
+
+.table {
+  font-size: 1.6rem;
+  color: white;
+}
+
+.table thead {
+  background-color: var(--color-dark--1);
+}
+.table thead tr {
+  background-color: var(--color-dark--1);
+}
+.table thead th {
+  text-align: center; /* Center align the text */
+  padding: 1.2rem; /* Adjust padding as needed */
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: white;
+}
+
+.table td {
+  text-align: center; /* Center align the text */
+  padding: 1.2rem; /* Adjust padding as needed */
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: white;
+}
+.table tbody tr:nth-of-type(odd) td {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Set the color of odd rows with 50% opacity */
+  color: white;
+}
+
+.table tbody tr:nth-of-type(even) td {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.3
+  ); /* Set the color of even rows with 50% opacity */
+  color: white;
+}
+
+.table tbody tr:hover td {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+}
+
+.form {
+  background-color: var(--color-dark--2);
+  border-radius: 7px;
+  padding: 2rem 3rem;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form.loading {
+  opacity: 0.3;
+}
+
+.form.loading button {
+  pointer-events: none;
+  background-color: var(--color-light--1);
+  border: 1px solid var(--color-light--1);
+  color: var(--color-dark--0);
+}

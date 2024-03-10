@@ -8,38 +8,42 @@
 }
 
 .img {
-  border-radius: 50%;
-  width: 100px;
+  width: 150px;
+  height: 150px;
   margin-bottom: 1rem;
+  border: 5px solid #55c57a; /* Add a solid red border */
+  border-radius: 50%; /* Maintain circular shape */
+  overflow: hidden; /* Hide any content that may overflow the border */
+  object-fit: cover;
 }
 
 .form__upload {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
-  .form__upload + label {
-    color: #55c57a;
-    display: inline-block;
-    text-decoration: none;
-    border-bottom: 1px solid #55c57a;
-    padding: 3px;
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
-    margin-bottom: 3rem;
-    cursor: pointer;
-  }
-  .form__upload + label:hover {
-    border-bottom: 1px solid #fff;
-    color: #fff;
-    -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
-    -webkit-transform: translateY(-2px);
-    transform: translateY(-2px);
-  }
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.form__upload + label {
+  color: #55c57a;
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px solid #55c57a;
+  padding: 3px;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  margin-bottom: 3rem;
+  cursor: pointer;
+}
+.form__upload + label:hover {
+  border-bottom: 1px solid #fff;
+  color: #fff;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateY(-2px);
+  transform: translateY(-2px);
+}
 .form {
   background-color: var(--color-dark--2);
   border-radius: 7px;
@@ -62,18 +66,25 @@
   justify-content: flex-end;
 }
 
-.form.loading {
-  opacity: 0.3;
-}
-
-.form.loading button {
-  pointer-events: none;
-  background-color: var(--color-light--1);
-  border: 1px solid var(--color-light--1);
-  color: var(--color-dark--0);
-}
-
 :global(.react-datepicker) {
   font-family: inherit;
   font-size: 1.2rem;
+}
+
+.btn {
+  color: white;
+  text-transform: uppercase;
+  padding: 0.8rem 1.6rem;
+  font-family: inherit;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  justify-content: flex-end;
+}
+
+.primary {
+  font-weight: 700;
+  background-color: var(--color-brand--2);
+  color: var(--color-dark--1);
 }

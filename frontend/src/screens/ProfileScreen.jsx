@@ -15,8 +15,9 @@ const ProfileScreen = () => {
 
   const dispatch = useDispatch();
 
-    const { userInfo } = useSelector((state) => state.auth);
-    const [updateProfile, {isLoading: loadingProfileUpdate}] = useProfileMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+  const [updateProfile, { isLoading: loadingProfileUpdate }] =
+    useProfileMutation();
 
   useEffect(() => {
     if (userInfo) {
@@ -49,7 +50,12 @@ const ProfileScreen = () => {
     <div className={styles.profile}>
       <div className={`${styles.form__group} ${styles.form__photo_upload}`}>
         <figure htmlFor="image">
-          <img htmlFor="image" src={userInfo.image} alt="profile" className={styles.img} />
+          <img
+            htmlFor="image"
+            src={userInfo.image}
+            alt="profile"
+            className={styles.img}
+          />
         </figure>
         <input
           className={styles.form__upload}
@@ -101,8 +107,8 @@ const ProfileScreen = () => {
           ></input>
         </Form.Group>
 
-        <div className={styles.buttons}>
-          <Button type="submit" variant="primary">
+        <div>
+          <Button className={`${styles.btn} ${styles.primary}`} type="submit">
             Update
           </Button>
         </div>
