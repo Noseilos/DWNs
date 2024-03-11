@@ -24,6 +24,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data,
             })
         }),
+        updateUserImage: builder.mutation({
+            query: ({ userId, data }) => ({
+                url: `${UPLOAD_URL}/user/${userId}`, 
+                method: 'PUT', 
+                body: data,
+            })
+        }),
         logout: builder.mutation({
             query: () => ({
                 url: `${USERS_URL}/logout`,
@@ -77,4 +84,5 @@ export const {
     useGetUserDetailsQuery,
     useUpdateUserMutation,
     useUploadUserImageMutation,
+    useUpdateUserImageMutation
 } = usersApiSlice;

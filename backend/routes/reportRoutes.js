@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router();
 
-import { getAllReports, createReports, getReportsById, updateReportsById, deleteReportsById } from '../controllers/reportsController.js'
+import { getAllReports, createReports, getReportsById, updateReportsById, deleteReportsById, getMyReport } from '../controllers/reportsController.js'
 import { protect, admin } from "../middleware/authMiddleware.js";
 
 
@@ -11,6 +11,8 @@ router
   .post(
     createReports
   );
+  
+router.route('/myreports').get(protect, getMyReport);
 
 router
   .route(`/:id`)

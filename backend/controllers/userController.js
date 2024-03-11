@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import fs from 'fs/promises'
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -102,12 +103,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-
-    // Check if req.file exists before updating the image field
-    if (req.file) {
-      user.image = req.file.path;
-    }
-
+    
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -178,6 +174,7 @@ const updateUser = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
+    user.image = req.body.image || user.image;
     user.isAdmin = Boolean(req.body.isAdmin);
 
     const updatedUser = await user.save();
@@ -186,6 +183,7 @@ const updateUser = asyncHandler(async (req, res) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
+      image: updatedUser.image,
       isAdmin: updatedUser.isAdmin,
     });
   } else {

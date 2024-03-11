@@ -42,6 +42,11 @@ const getAllReports = asyncHandler(async (req, res, next) => {
   res.status(200).json(reports);
 })
 
+const getMyReport = asyncHandler(async (req, res) => { 
+  const reports = await Reports.find({ user: req.user._id });
+  res.status(200).json(reports);
+});
+
 const getReportsById = asyncHandler(async (req, res) => {
   const report = await Reports.findById(req.params.id);
 
@@ -60,5 +65,6 @@ export {
   getAllReports,
   getReportsById,
   updateReportsById,
-  deleteReportsById
+  deleteReportsById,
+  getMyReport
 }

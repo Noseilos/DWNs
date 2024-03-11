@@ -5,12 +5,18 @@ import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import { useProfileMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
+import {
+  useUpdateUserImageMutation,
+} from "../slices/usersApiSlice";
 import styles from "./styles/ProfileScreen.module.css";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
+  const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [uploadUserImage, { isLoading: loadingUpload }] =
+  useUpdateUserImageMutation();
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
@@ -23,8 +29,9 @@ const ProfileScreen = () => {
     if (userInfo) {
       setName(userInfo.name);
       setEmail(userInfo.email);
+      setUserId(userInfo._id);
     }
-  }, [userInfo, userInfo.name, userInfo.email]);
+  }, [userInfo, userInfo.name, userInfo.email, userInfo._id]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -45,6 +52,23 @@ const ProfileScreen = () => {
       }
     }
   };
+  
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+
+    if (e.target.files.length > 0) {
+      formData.append("image", e.target.files[0]);
+    }
+
+
+    try {
+      const res = await uploadUserImage({ userId, data: formData }).unwrap();
+      toast.success(res.message);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+      console.log(err?.data?.message || err.error);
+    }
+  };
 
   return (
     <div className={styles.profile}>
@@ -63,6 +87,7 @@ const ProfileScreen = () => {
           accept="image/*"
           id="image"
           name="image"
+          onChange={uploadFileHandler}
         />
         <label htmlFor="image">Choose New Photo</label>
       </div>
