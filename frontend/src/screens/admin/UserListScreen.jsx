@@ -1,6 +1,6 @@
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button, Tooltip } from "react-bootstrap";
-import { FaTimes, FaTrash, FaCheck } from "react-icons/fa";
+import { FaTimes, FaTrash, FaCheck, FaEdit } from "react-icons/fa";
 import { TbRestore } from "react-icons/tb";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
@@ -11,6 +11,7 @@ import {
 } from "../../slices/usersApiSlice";
 import { toast } from "react-toastify";
 import styles from "../styles/UserList.module.css";
+import Header from "../../components/Header";
 
 const UserlistScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
@@ -48,6 +49,9 @@ const UserlistScreen = () => {
 
   return (
     <>
+    <div className={styles.userlist_container2}>
+      <Header/>
+
       {loadingSoftDelete && <Loader />}
       {isLoading ? (
         <Loader />
@@ -60,7 +64,10 @@ const UserlistScreen = () => {
           <div className={styles.userlist}>
             <div className={styles.userlist_title}>
               <h4>Registered Users</h4>
-              <LinkContainer to="/admin/deleted-users" style={{ float: "right", color: "white" }}>
+              <LinkContainer
+                to="/admin/deleted-users"
+                style={{ float: "right", color: "white" }}
+              >
                 <Button className="cta" style={{ justifyContent: "end" }}>
                   Deleted Users
                 </Button>
@@ -97,7 +104,7 @@ const UserlistScreen = () => {
                     <td>
                       <LinkContainer to={`/admin/user/edit/${user._id}`}>
                         <button className={styles.action_btn}>
-                          <TbRestore />
+                          <FaEdit />
                         </button>
                       </LinkContainer>
                       <button
@@ -115,6 +122,7 @@ const UserlistScreen = () => {
           </div>
         </div>
       )}
+    </div>
     </>
   );
 };

@@ -1,12 +1,14 @@
 import styles from "./styles/News.module.css";
 import RRR from "../assets/img/RRR.jpg";
 import waste from "../assets/img/waste.jpg";
+import Header from "../components/Header";
 
 function News() {
   return (
     <>
       {" "}
       <main className={styles.news}>
+        <Header/>
       <h2>Read Our Latest News</h2>
         <section>
           <div>

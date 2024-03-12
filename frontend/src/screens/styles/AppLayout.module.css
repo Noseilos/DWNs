@@ -1,3 +1,11 @@
+.app2 {
+  min-height: 100vh;
+  height: auto;
+  background-color: #4d5861;
+  background-size: cover;
+  background-position: center;
+  padding: 2.5rem 5rem;
+}
 .app {
   height: 100vh;
   background-color: var(--color-dark--1);

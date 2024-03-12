@@ -1,10 +1,17 @@
-/* styles/UserList.module.css */
 .userlist_container {
   display: flex;
   justify-content: center;
   background-color: none;
   align-items: center;
   height: 100%;
+}
+.userlist_container2 {
+  min-height: 100vh;
+  height: auto;
+  background-color: #4d5861;
+  background-size: cover;
+  background-position: center;
+  padding: 2.5rem 5rem;
 }
 
 .userlist {
@@ -114,7 +121,7 @@
 }
 
 .action_btn {
-  font-family: lato,sans-serif;
+  font-family: lato, sans-serif;
   font-weight: bold;
   font-size: 1em;
   letter-spacing: 0.1em;
@@ -128,7 +135,7 @@
 }
 
 .action_btn2 {
-  font-family: lato,sans-serif;
+  font-family: lato, sans-serif;
   font-weight: bold;
   font-size: 1em;
   letter-spacing: 0.1em;
@@ -143,7 +150,7 @@
 }
 
 .action_btn3 {
-  font-family: lato,sans-serif;
+  font-family: lato, sans-serif;
   font-weight: bold;
   font-size: 1em;
   letter-spacing: 0.1em;

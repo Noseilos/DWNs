@@ -1,31 +1,34 @@
-import React from 'react'
+import React from "react";
 
 // --- COMPONENT IMPORTS ---
-import Header from './components/Header'
-import Footer from './components/Footer'
-import HomeScreen from './screens/HomeScreen'
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 // --- STYLE IMPORTS ---
-import { Container } from 'react-bootstrap'
 import styles from "./screens/styles/Homepage.module.css";
 
 // --- PACKAGE IMPORTS ---
-import { Outlet } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
+import { Outlet, useLocation } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
+  const location = useLocation(); // Get the current location using useLocation hook
+
+  // Determine the className based on the current location
+  let mainClassName;
+  if (location.pathname === "/news") {
+    mainClassName = styles.news; // Apply style for the about page
+  } else if (location.pathname === "/login") {
+    mainClassName = styles.login; // Apply style for the about page
+  } else {
+    mainClassName = styles.homepage;
+  }
   return (
     <>
-      <main className={styles.homepage}>
-        <Header/>
-            <Outlet />
-        <ToastContainer />
-      </main>
-        <Footer />
+        <Outlet />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

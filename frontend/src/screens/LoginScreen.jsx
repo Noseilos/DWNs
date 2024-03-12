@@ -45,6 +45,7 @@ const LoginScreen = () => {
 
   return (
     <main className={styles.login}>
+      <Header />
       <FormContainer>
         <Form onSubmit={submitHandler} className={styles.form}>
           <Divider>LOGIN </Divider>

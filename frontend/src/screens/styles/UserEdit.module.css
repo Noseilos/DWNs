@@ -1,0 +1,115 @@
+.useredit_container {
+  display: flex;
+  justify-content: center;
+  background-color: none;
+  align-items: center;
+  height: 100%;
+}
+.useredit_container2 {
+  min-height: 100vh;
+  height: auto;
+  background-color: #4d5861;
+  background-size: cover;
+  background-position: center;
+  padding: 2.5rem 5rem;
+}
+
+.userlist {
+    width: 100%;
+    max-width: 600px;
+    flex-direction: column;
+    background-color: var(--color-dark--2);
+    border-radius: 7px;
+    padding: 2rem 3rem;
+    width: 80%;
+    display: flex;
+    gap: 2rem;
+  }
+
+  .userlist_title h4 {
+    font-size: 4rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+    float: left;
+    text-align: center; /* Center align the title within its container */
+  }
+  
+  .form {
+    background-color: var(--color-dark--2);
+    border-radius: 7px;
+    padding: 2rem 3rem;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .form.loading {
+    opacity: 0.3;
+  }
+  
+  .form.loading button {
+    pointer-events: none;
+    background-color: var(--color-light--1);
+    border: 1px solid var(--color-light--1);
+    color: var(--color-dark--0);
+  }
+  
+  .action_btn {
+    font-family: lato, sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    position: relative;
+    border: 3px solid #ffffff;
+    border-radius: 20px;
+  }
+  
+  .action_btn2 {
+    font-family: lato, sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: black;
+    background-color: crimson;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    position: relative;
+    border: 3px solid #ffffff;
+    border-radius: 20px;
+  }
+  
+  .action_btn3 {
+    font-family: lato, sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: white;
+    background-color: rgb(0, 196, 106);
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    position: relative;
+    border: 3px solid rgb(0, 196, 106);
+    border-radius: 20px;
+  }
+  

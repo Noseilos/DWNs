@@ -1,6 +1,6 @@
-import { useState, useEffect, Fragment } from "react";
+import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
@@ -91,6 +91,7 @@ const RegisterScreen = () => {
 
   return (
     <main className={styles.register}>
+      <Header />
       <FormContainer>
         <Form onSubmit={formik.handleSubmit} className={styles.form}>
           <Divider>REGISTER </Divider>

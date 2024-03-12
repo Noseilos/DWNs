@@ -7,9 +7,10 @@ import { useProfileMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import {
   useUpdateUserImageMutation,
-  useUploadUserImageMutation
+  useUploadUserImageMutation,
 } from "../slices/usersApiSlice";
 import styles from "./styles/ProfileScreen.module.css";
+import Header from "../components/Header";
 
 const ProfileScreen = () => {
   const [userId, setUserId] = useState("");
@@ -18,7 +19,7 @@ const ProfileScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [uploadUserImage, { isLoading: loadingUpload }] =
-  useUpdateUserImageMutation();
+    useUpdateUserImageMutation();
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
@@ -56,8 +57,8 @@ const ProfileScreen = () => {
       }
     }
   };
-  
-  if (loadingUpload) return <Loader/>
+
+  if (loadingUpload) return <Loader />;
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
 
@@ -75,76 +76,82 @@ const ProfileScreen = () => {
   };
 
   return (
-    <div className={styles.profile}>
-      <div className={`${styles.form__group} ${styles.form__photo_upload}`}>
-        <figure htmlFor="image">
-          <img
-            htmlFor="image"
-            src={userInfo.image}
-            alt="profile"
-            className={styles.img}
+    <>
+      <div className={styles.profile}>
+        <Header />
+        <div className={styles.profile2}>
+
+        <div className={`${styles.form__group} ${styles.form__photo_upload}`}>
+          <figure htmlFor="image">
+            <img
+              htmlFor="image"
+              src={userInfo.image}
+              alt="profile"
+              className={styles.img}
+            />
+          </figure>
+          <input
+            className={styles.form__upload}
+            type="file"
+            accept="image/*"
+            id="image"
+            name="image"
+            onChange={uploadFileHandler}
           />
-        </figure>
-        <input
-          className={styles.form__upload}
-          type="file"
-          accept="image/*"
-          id="image"
-          name="image"
-          onChange={uploadFileHandler}
-        />
-        <label htmlFor="image">Choose New Photo</label>
-      </div>
-      <Form onSubmit={submitHandler} className={styles.form}>
-        <Form.Group controlId="name" className={styles.row}>
-          <Form.Label>Name: </Form.Label>
-          <input
-            type="name"
-            placeholder="Enter Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          ></input>
-        </Form.Group>
-
-        <Form.Group controlId="email" className={styles.row}>
-          <Form.Label>Email: </Form.Label>
-          <input
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
-        </Form.Group>
-
-        <Form.Group controlId="password" className={styles.row}>
-          <Form.Label>Password: </Form.Label>
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
-        </Form.Group>
-
-        <Form.Group controlId="confirmPassword" className={styles.row}>
-          <Form.Label>Confirm Password: </Form.Label>
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></input>
-        </Form.Group>
-
-        <div>
-          <Button className={`${styles.btn} ${styles.primary}`} type="submit">
-            Update
-          </Button>
+          <label htmlFor="image">Choose New Photo</label>
         </div>
+        <Form onSubmit={submitHandler} className={styles.form}>
+          <Form.Group controlId="name" className={styles.row}>
+            <Form.Label>Name: </Form.Label>
+            <input
+              type="name"
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            ></input>
+          </Form.Group>
 
-        {loadingProfileUpdate && <Loader />}
-      </Form>
-    </div>
+          <Form.Group controlId="email" className={styles.row}>
+            <Form.Label>Email: </Form.Label>
+            <input
+              type="email"
+              placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            ></input>
+          </Form.Group>
+
+          <Form.Group controlId="password" className={styles.row}>
+            <Form.Label>Password: </Form.Label>
+            <input
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></input>
+          </Form.Group>
+
+          <Form.Group controlId="confirmPassword" className={styles.row}>
+            <Form.Label>Confirm Password: </Form.Label>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            ></input>
+          </Form.Group>
+
+          <div>
+            <Button className={`${styles.btn} ${styles.primary}`} type="submit">
+              Update
+            </Button>
+          </div>
+
+          {loadingProfileUpdate && <Loader />}
+        </Form>
+        </div>
+      </div>
+    </>
   );
 };
 

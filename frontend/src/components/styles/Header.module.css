@@ -3,7 +3,12 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 7rem;
+  padding: 25px;
+  background-color: rgba(45, 52, 57, 0.7);
+  border-radius: 20px;
 }
+
+
 
 .nav ul {
   list-style: none;
@@ -17,8 +22,8 @@
   text-decoration: none;
   color: var(--color-light--2);
   text-transform: uppercase;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 800;
 }
 
 /* CSS Modules feature */

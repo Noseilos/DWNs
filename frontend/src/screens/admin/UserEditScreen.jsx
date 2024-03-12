@@ -8,7 +8,9 @@ import {
   useUpdateUserMutation,
 } from "../../slices/usersApiSlice";
 import FormContainer from "../../components/FormContainer";
+import styles from "../styles/UserEdit.module.css";
 import { toast } from "react-toastify";
+import Header from "../../components/Header";
 
 const UserEditScreen = () => {
   const { id: userId } = useParams();
@@ -50,55 +52,64 @@ const UserEditScreen = () => {
 
   return (
     <>
-      <Link to={`/admin/users`} className="btn btn-light my-3">
-        Go Back
-      </Link>
+      <main className={styles.useredit_container2}>
+        <Header />
 
-      <FormContainer>
-        <h1>Edit User</h1>
-        {loadingUpdate && <Loader />}
+        <div className={styles.useredit_container}>
+          <div className={styles.form}>
+            <div className={styles.userlist_title}>
+              <h4>Edit User: {name}</h4>
+            </div>
 
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">{error}</Message>
-        ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name" className="my-3">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <FormContainer>
+              {loadingUpdate && <Loader />}
+              {isLoading ? (
+                <Loader />
+              ) : error ? (
+                <Message variant="danger">{error}</Message>
+              ) : (
+                <Form onSubmit={submitHandler} >
+                  <Form.Group controlId="name" className={styles.row}>
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </Form.Group>
 
-            <Form.Group controlId="email" className="my-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+                  <Form.Group controlId="email"  className={styles.row}>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </Form.Group>
 
-            <Form.Group controlId="isAdmin" className="my-2">
-              <Form.Check
-                type="checkbox"
-                label="Is Admin"
-                checked={isAdmin}
-                onChange={(e) => setIsAdmin(e.target.checked)}
-              ></Form.Check>
-            </Form.Group>
+                  <Form.Group controlId="isAdmin" className={styles.row}>
+                    <Form.Check
+                      type="checkbox"
+                      label="Give admin privileges"
+                      checked={isAdmin}
+                      onChange={(e) => setIsAdmin(e.target.checked)}
+                    />
+                  </Form.Group>
 
-            <Button type="submit" variant="primary" className="my-2">
-              Update
-            </Button>
-          </Form>
-        )}
-      </FormContainer>
+                  <Button type="submit" className="my-2" style={{marginRight: "10px"}}>
+                    Update
+                  </Button>
+                  <Link to={`/admin/users`} className="btn btn-light my-3">
+                    Done
+                  </Link>
+                </Form>
+              )}
+            </FormContainer>
+          </div>
+        </div>
+      </main>
     </>
   );
 };

@@ -1,6 +1,11 @@
 .login {
+  min-height: 100vh;
+  height: auto;
+  background-image: url("../../assets/background-2.png");
+  background-color: #2d3439;
+  background-size: cover;
+  background-position: center;
   padding: 2.5rem 5rem;
-  min-height: calc(100vh);
 }
 
 .form {
@@ -29,7 +34,7 @@
   justify-content: space-between;
 }
 
-.lbl{
+.lbl {
   font-size: 1rem;
   font-weight: 300;
 }
@@ -40,7 +45,7 @@
   font-weight: 300;
 }
 .link:hover {
-   color: var(--color-light--3);
-   font-size: 1rem;
-   font-weight: 300;
+  color: var(--color-light--3);
+  font-size: 1rem;
+  font-weight: 300;
 }

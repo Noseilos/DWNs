@@ -1,10 +1,57 @@
 .about {
+  min-height: 100vh;
+  height: auto;
+  background-image: url("../../assets/background-2.png");
+  background-color: #2d3439;
+  background-size: cover;
+  background-position: center;
   padding: 2.5rem 5rem;
-  background-color: none;
-  align-items: center;
-  min-height: calc(100vh);
 }
 
+.about2 {
+  min-height: 100vh;
+  height: auto;
+  background-color: #2d3439;
+  background-size: cover;
+  background-position: center;
+  padding: 2.5rem 5rem;
+}
+.about2 section {
+  width: clamp(80rem, 80%, 90rem);
+  margin: 6rem auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.about2 h2 {
+  position: relative;
+  text-transform: uppercase;
+  margin-bottom: 0.5em;
+  font-family: "Roboto", sans-serif;
+  font-size: 6rem;
+  color: #f3d774; /* Text color */
+  font-weight: 900;
+  margin-top: 20px;
+  text-shadow: 0 0 10px rgba(3, 38, 46, 0.8);
+}
+
+.about2 img {
+  width: 50%;
+  border-radius: 15px;
+}
+
+.about2 p {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.about2 section a {
+  margin-top: 2rem;
+}
 .about section {
   width: clamp(80rem, 80%, 90rem);
   margin: 6rem auto;
@@ -13,26 +60,39 @@
   align-items: center;
 }
 
-.about img {
-  width: 20%;
-  margin-bottom: -40px;
-}
-
 .about h2 {
+  position: relative;
+  text-transform: uppercase;
+  margin-bottom: 0.5em;
+  font-family: "Roboto", sans-serif;
   font-size: 6rem;
-  line-height: 1.2;
-  margin-bottom: 3rem;
-  text-align: center;
-  font-weight: 700;
-  color: white;
+  color: #f3d774; /* Text color */
+  font-weight: 900;
+  margin-top: 20px;
+  text-shadow: 0 0 10px rgba(3, 38, 46, 0.8);
 }
 
 .about p {
   font-size: 2rem;
   margin-bottom: 2rem;
+  font-weight: 600;
+  line-height: 1.5;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .about section a {
   margin-top: 2rem;
+}
+
+.information {
+  background-color: var(--color-dark--2);
+  border-radius: 7px;
+  padding: 2rem 3rem;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  /* Different from other form */
+  margin: 8rem auto;
 }
