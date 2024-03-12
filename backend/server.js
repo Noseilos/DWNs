@@ -7,7 +7,6 @@ dotenv.config();
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
-import uploadRoutes from './routes/uploadRoutes.js';
 import userUploadRoutes from './routes/userUploadRoutes.js'
 import reportRoutes from './routes/reportRoutes.js';
 import reportUploadRoutes from './routes/reportUploadRoutes.js'
@@ -30,7 +29,6 @@ const __dirname = path.resolve(); // Set dir name to current directory
 app.use('/api/users', userRoutes);
 app.use('/api/reports', reportRoutes);
 
-app.use('/api/uploads', uploadRoutes);
 app.use('/api/uploads/user', userUploadRoutes);
 app.use('/api/uploads/reports', reportUploadRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

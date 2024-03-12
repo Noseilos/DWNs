@@ -81,7 +81,7 @@ const ProfileScreen = () => {
             className={styles.img}
           />
         </figure>
-        <input
+        {/* <input
           className={styles.form__upload}
           type="file"
           accept="image/*"
@@ -89,7 +89,7 @@ const ProfileScreen = () => {
           name="image"
           onChange={uploadFileHandler}
         />
-        <label htmlFor="image">Choose New Photo</label>
+        <label htmlFor="image">Choose New Photo</label> */}
       </div>
       <Form onSubmit={submitHandler} className={styles.form}>
         <Form.Group controlId="name" className={styles.row}>

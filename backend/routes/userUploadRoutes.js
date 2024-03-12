@@ -2,7 +2,13 @@ import path from 'path'
 import express from 'express'
 import User from "../models/userModel.js";
 import multer from 'multer'
+import fs from 'fs'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 const router = express.Router();
+
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
 const storage = multer.diskStorage({
     destination(req, file, cb){
@@ -43,6 +49,11 @@ router.put('/:userId', upload.single('image'), async (req, res) => {
 
         if (!user) {
             return res.status(404).send({ message: 'User not found' });
+        }
+        
+        if (user.image) {
+            const oldImagePath = path.join(__dirname, 'uploads', user.image.replace('/', ''));
+            fs.unlinkSync(oldImagePath);
         }
 
         user.image = `/${req.file.path}`;

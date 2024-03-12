@@ -9,7 +9,7 @@ const Mapbox = ({ locations, details }) => {
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/noseilos/clt6v0y6100gf01o89dta3o4w',
+      style: 'mapbox://styles/noseilos/clto2zidz01mu01pj8rko7hbo',
       scrollZoom: true,
     });
 
