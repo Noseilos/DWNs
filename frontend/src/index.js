@@ -37,6 +37,7 @@ import MyReportsScreen from "./screens/MyReportsScreen";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Form from "./components/Form";
+import DeletedUserScreen from "./screens/admin/DeletedUserScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -62,6 +63,7 @@ const router = createBrowserRouter(
         <Route path="/admin/reports" element={<ReportListScreen />} />
         <Route path="/admin/report/:id" element={<ReportDetailScreen />} />
         <Route path="/admin/users" element={<UserListScreen />} />
+        <Route path="/admin/deleted-users" element={<DeletedUserScreen />} />
         <Route path="/admin/user/edit/:id" element={<UserEditScreen />} />
         <Route path="/admin/charts" element={<ChartLayout />} />
       </Route>

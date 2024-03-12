@@ -1,7 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
-import fs from 'fs/promises'
+import fs from "fs/promises";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -104,7 +104,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.image = req.body.image || user.image;
-    
+
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -166,6 +166,47 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Delete users (soft delete)
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+const softDeleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    if (user.isAdmin) {
+      res.status(400);
+      throw new Error("Cannot delete admin user");
+    }
+
+    // Instead of deleting, update the user's status
+    user.isDeleted = true;
+    await user.save();
+
+    res.status(200).json({ message: "User soft deleted successfully" });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+// @desc    Restore soft-deleted user
+// @route   PATCH /api/users/restore/:id
+// @access  Private/Admin
+const restoreUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    // Restore the user by setting isDeleted to false
+    user.isDeleted = false;
+    await user.save();
+
+    res.status(200).json({ message: "User restored successfully" });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
 // @desc    Update user
 // @route   PUT /api/users/:id
 // @access  Private/Admin
@@ -201,6 +242,8 @@ export {
   updateUserProfile,
   getUsers,
   deleteUser,
+  softDeleteUser,
+  restoreUser,
   getUserById,
   updateUser,
 };

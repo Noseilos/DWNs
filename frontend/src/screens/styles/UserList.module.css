@@ -20,15 +20,14 @@
   gap: 2rem;
 }
 
-.userlist_title h4{
-    font-size: 4rem;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 0.5rem;
-    float: left;
-    text-align: center; /* Center align the title within its container */
-  }
-  
+.userlist_title h4 {
+  font-size: 4rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+  float: left;
+  text-align: center; /* Center align the title within its container */
+}
 
 .table {
   font-size: 1.6rem;
@@ -112,4 +111,48 @@
   background-color: var(--color-light--1);
   border: 1px solid var(--color-light--1);
   color: var(--color-dark--0);
+}
+
+.action_btn {
+  font-family: lato,sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  padding: 5px 10px 5px 10px;
+  position: relative;
+  border: 3px solid #ffffff;
+  border-radius: 20px;
+}
+
+.action_btn2 {
+  font-family: lato,sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: black;
+  background-color: crimson;
+  display: inline-block;
+  padding: 5px 10px 5px 10px;
+  position: relative;
+  border: 3px solid #ffffff;
+  border-radius: 20px;
+}
+
+.action_btn3 {
+  font-family: lato,sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: white;
+  background-color: rgb(0, 196, 106);
+  display: inline-block;
+  padding: 5px 10px 5px 10px;
+  position: relative;
+  border: 3px solid rgb(0, 196, 106);
+  border-radius: 20px;
 }

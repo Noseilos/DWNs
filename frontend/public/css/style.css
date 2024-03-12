@@ -670,6 +670,21 @@ html {
   -webkit-box-shadow: 0 3rem 8rem 0.5rem rgba(0, 0, 0, 0.15);
   box-shadow: 0 3rem 8rem 0.5rem rgba(0, 0, 0, 0.15);
 }
+
+.action_btn {
+  font-family: lato,sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: #ffffff;
+  display: inline-block;
+  padding: 10px 40px 10px 40px;
+  position: relative;
+  border: 3px solid #ffffff;
+  border-radius: 20px;
+}
+
 .cta__img {
   height: 15rem;
   width: 15rem;

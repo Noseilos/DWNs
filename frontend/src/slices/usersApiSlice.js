@@ -57,6 +57,18 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE'
             })
         }),
+        softDeleteUser: builder.mutation({
+            query: (userId) => ({
+                url: `${USERS_URL}/${userId}`,
+                method: 'PATCH'
+            })
+        }),
+        restoreUser: builder.mutation({
+            query: (userId) => ({
+                url: `${USERS_URL}/restore/${userId}`,
+                method: 'PATCH'
+            })
+        }),
         getUserDetails: builder.query({
             query: (userId) => ({
                 url: `${USERS_URL}/${userId}`,
@@ -81,6 +93,8 @@ export const {
     useProfileMutation,
     useGetUsersQuery,
     useDeleteUserMutation,
+    useSoftDeleteUserMutation,
+    useRestoreUserMutation,
     useGetUserDetailsQuery,
     useUpdateUserMutation,
     useUploadUserImageMutation,
