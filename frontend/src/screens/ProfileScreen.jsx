@@ -7,12 +7,14 @@ import { useProfileMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import {
   useUpdateUserImageMutation,
+  useUploadUserImageMutation
 } from "../slices/usersApiSlice";
 import styles from "./styles/ProfileScreen.module.css";
 
 const ProfileScreen = () => {
-  const [name, setName] = useState("");
   const [userId, setUserId] = useState("");
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [uploadUserImage, { isLoading: loadingUpload }] =
@@ -29,9 +31,10 @@ const ProfileScreen = () => {
     if (userInfo) {
       setName(userInfo.name);
       setEmail(userInfo.email);
+      setImage(userInfo.image);
       setUserId(userInfo._id);
     }
-  }, [userInfo, userInfo.name, userInfo.email, userInfo._id]);
+  }, [userInfo, userInfo.name, userInfo.email, userInfo._id, userInfo.image]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -42,6 +45,7 @@ const ProfileScreen = () => {
         const res = await updateProfile({
           _id: userInfo._id,
           name,
+          image,
           email,
           password,
         }).unwrap();
@@ -53,6 +57,7 @@ const ProfileScreen = () => {
     }
   };
   
+  if (loadingUpload) return <Loader/>
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
 
@@ -60,9 +65,8 @@ const ProfileScreen = () => {
       formData.append("image", e.target.files[0]);
     }
 
-
     try {
-      const res = await uploadUserImage({ userId, data: formData }).unwrap();
+      const res = await uploadUserImage(formData).unwrap();
       toast.success(res.message);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -81,7 +85,7 @@ const ProfileScreen = () => {
             className={styles.img}
           />
         </figure>
-        {/* <input
+        <input
           className={styles.form__upload}
           type="file"
           accept="image/*"
@@ -89,7 +93,7 @@ const ProfileScreen = () => {
           name="image"
           onChange={uploadFileHandler}
         />
-        <label htmlFor="image">Choose New Photo</label> */}
+        <label htmlFor="image">Choose New Photo</label>
       </div>
       <Form onSubmit={submitHandler} className={styles.form}>
         <Form.Group controlId="name" className={styles.row}>
