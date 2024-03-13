@@ -8,3 +8,4 @@ export const UPLOAD_URL = '/api/uploads';
 export const CATEGORIES_URL = '/api/categories'
 export const BRANDS_URL = '/api/brands'
 export const REPORTS_URL = '/api/reports'
+export const LOCATIONS_URL = '/api/locations'

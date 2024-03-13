@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
 import Spinner from "./Spinner";
 import { useCreateReportMutation, useUploadReportImageMutation } from "../slices/reportsSlice";
+import { useGetLocationsQuery } from "../slices/locationSlice";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -12,11 +13,14 @@ import { toast } from "react-toastify";
 import Message from "./Message";
 
 function Form() {
+  const { data: locations, isLoading: loadingLocations } = useGetLocationsQuery();
+
   const [createReport, { isLoading: loadingCreate, error }] = useCreateReportMutation();
   const [uploadReportImage, { isLoading: loadingUpload }] = useUploadReportImageMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
+
   const [locationName, setLocationName] = useState("");
   const [summary, setSummary] = useState("");
   const [images, setImages] = useState("");
@@ -29,7 +33,13 @@ function Form() {
     const params = new URLSearchParams(location.search);
     setLat(params.get('lat'));
     setLng(params.get('lng'));
-  }, [location]);
+    setLocationName(locationName);
+
+  }, [location, locationName]);
+
+  const handleLocationChange = (e) => {
+    setLocationName(e.target.value);
+  };
 
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
@@ -90,13 +100,17 @@ function Form() {
       onSubmit={handleSubmit}
     >
       <div className={styles.row}>
-        <label htmlFor="locationName">Location name</label>
-        <input
-          id="locationName"
+        <select
+          id="locationSelect"
           value={locationName}
-          onChange={(e) => setLocationName(e.target.value)}
+          onChange={handleLocationChange}
           required
-        />
+        >
+          <option value="">Select a location</option>
+          {locations && locations.map(location => (
+            <option key={location.id} value={location.id}>{location.name}</option>
+          ))}
+        </select>
       </div>
 
       <div className={styles.row}>

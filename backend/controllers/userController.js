@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import path from "path";
 import fs from "fs/promises";
 
 // @desc    Auth user & get token
@@ -103,7 +104,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    user.image = req.body.image || user.image;
+
+    if (req.body.image) {
+      user.image = req.body.image;
+    }
 
     if (req.body.password) {
       user.password = req.body.password;

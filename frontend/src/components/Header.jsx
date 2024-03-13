@@ -127,6 +127,17 @@ const Header = () => {
               >
                 <NavDropdown.Item>Reports</NavDropdown.Item>
               </LinkContainer>
+              <LinkContainer
+                style={{
+                  color:
+                    window.location.pathname === "/admin/locations"
+                      ? "#00c46a"
+                      : "black",
+                }}
+                to="/admin/locations"
+              >
+                <NavDropdown.Item>Locations</NavDropdown.Item>
+              </LinkContainer>
             </NavDropdown>
           </li>
         )}

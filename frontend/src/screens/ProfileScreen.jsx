@@ -13,7 +13,6 @@ import styles from "./styles/ProfileScreen.module.css";
 import Header from "../components/Header";
 
 const ProfileScreen = () => {
-  const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [email, setEmail] = useState("");
@@ -33,9 +32,8 @@ const ProfileScreen = () => {
       setName(userInfo.name);
       setEmail(userInfo.email);
       setImage(userInfo.image);
-      setUserId(userInfo._id);
     }
-  }, [userInfo, userInfo.name, userInfo.email, userInfo._id, userInfo.image]);
+  }, [userInfo, userInfo.name, userInfo.email, userInfo.image]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -69,6 +67,7 @@ const ProfileScreen = () => {
     try {
       const res = await uploadUserImage(formData).unwrap();
       toast.success(res.message);
+      setImage(res.image)
     } catch (err) {
       toast.error(err?.data?.message || err.error);
       console.log(err?.data?.message || err.error);
@@ -90,15 +89,6 @@ const ProfileScreen = () => {
               className={styles.img}
             />
           </figure>
-          <input
-            className={styles.form__upload}
-            type="file"
-            accept="image/*"
-            id="image"
-            name="image"
-            onChange={uploadFileHandler}
-          />
-          <label htmlFor="image">Choose New Photo</label>
         </div>
         <Form onSubmit={submitHandler} className={styles.form}>
           <Form.Group controlId="name" className={styles.row}>
@@ -119,6 +109,15 @@ const ProfileScreen = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             ></input>
+          </Form.Group>
+
+          <Form.Group controlId="image" className={styles.row}>
+            <Form.Label>Avatar</Form.Label>
+            <Form.Control
+              type="file"
+              label="Choose files"
+              onChange={uploadFileHandler}
+            />
           </Form.Group>
 
           <Form.Group controlId="password" className={styles.row}>

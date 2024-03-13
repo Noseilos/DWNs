@@ -131,7 +131,6 @@ const RegisterScreen = () => {
             <Form.Control
               type="file"
               label="Choose files"
-              multiple
               onChange={uploadFileHandler}
             />
             <div className="text-danger">

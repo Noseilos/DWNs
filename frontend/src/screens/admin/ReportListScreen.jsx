@@ -21,8 +21,7 @@ const ReportListScreen = () => {
   if (!reports) {
     return <div>No reports data available.</div>;
   }
-
-  console.log(reports);
+  
   const reportsPerDay = {};
   reports.forEach((report) => {
     const date = new Date(report.createdAt);

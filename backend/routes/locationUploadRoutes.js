@@ -1,17 +1,12 @@
 import path from 'path'
 import express from 'express'
-import User from "../models/userModel.js";
 import multer from 'multer'
-import fs from 'fs'
 
 const router = express.Router();
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
 const storage = multer.diskStorage({
     destination(req, file, cb){
-        cb(null, 'uploads/users/'); // Null is for error
+        cb(null, 'uploads/locations/'); // Null is for error
     },
     filename(req, file, cb){
         cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
@@ -30,21 +25,13 @@ function checkFileType(file, cb){
 }
 
 const upload = multer({
-    storage,    
+    storage,
 });
 
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/', upload.single('image'), (req, res) => {
     res.send({
-        message: 'Image uploaded',
+        message: 'Images uploaded',
         image: `/${req.file.path}`,
-    });
-});
-
-router.put('/:userId', upload.single('image'), async (req, res) => {
-    
-    res.send({
-        message: 'Image uploaded',
-        image: `/${req.file.path}`
     });
 });
 
