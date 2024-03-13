@@ -1,13 +1,14 @@
-import React from 'react'
-
-import { useParams, Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { useGetReportDetailsQuery } from "../slices/reportsSlice";
 import Spinner from "../components/Spinner";
-import Mapbox from './MapBox';
-import '../assets/css/style.css'
+import Mapbox from "./MapBox";
+import styles from "./styles/UserEdit.module.css";
+import "../assets/css/style.css";
+import Header from "../components/Header";
+import { Card, Col, Row } from "react-bootstrap";
 
 const ReportDetailScreen = () => {
-
   const { id: reportId } = useParams();
   const {
     data: report,
@@ -15,49 +16,74 @@ const ReportDetailScreen = () => {
     refetch,
     error,
   } = useGetReportDetailsQuery(reportId);
-  console.log(report)
 
   if (isLoading) {
     return <Spinner />;
   }
 
+  // Check if report is not undefined before accessing its properties
+  const images = report?.images || [];
+
   return (
-    <div className="container">
-      <section className="section-header">
-        <div className="header__hero">
-          <div className="header__hero-overlay">&nbsp;</div>
-          <img className="header__hero-img" src={report.images[0]} alt={report.locationName} />
+    <main className={styles.useredit_container2}>
+      <Header />
+      <div className={styles.useredit_container}>
+        <div className="container">
+          <section className="section-header">
+            <div className="header__hero">
+              <div className="header__hero-overlay">&nbsp;</div>
+              {images.length > 0 && (
+                <img
+                  className="header__hero-img"
+                  src={images[0]}
+                  alt={report.locationName}
+                />
+              )}
+            </div>
+
+            <div className="heading-box">
+              <h1 className="heading-primary">
+                <span>{`${report.locationName} report`}</span>
+              </h1>
+              <h1
+                className="heading-secondary"
+                style={{ color: "white", marginTop: "20px" }}
+              >
+                <span>{`#${report._id}`}</span>
+              </h1>
+            </div>
+          </section>
+
+          <section className="section-description">
+            <div className="description-box">
+              <h1 className="heading-primary">
+                <span>Summary</span>
+              </h1>
+            </div>
+            <div className="description-box">
+              <h2 className="heading-secondary">{report.summary}</h2>
+            </div>
+          </section>
+
+          <section className="section-map" style={{ backgroundColor: "white" }}>
+            <Mapbox locations={[report.location]} details={report} />
+          </section>
+
+          <section className="section-pictures">
+            <Row xs={1} md={2} lg={3} className="g-4">
+              {images.map((img, i) => (
+                <Col key={i}>
+                  <Card className="h-100 cardImage">
+                    <Card.Img variant="top" src={img} />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </section>
         </div>
-        
+      </div>
+    </main>
+  );
+};
 
-        <div className="heading-box">
-          <h1 className="heading-primary">
-            <span>{`${report.locationName} report`}</span>
-          </h1>
-        </div>
-      </section>
-
-      <section className="section-description">
-        <div className="description-box">
-          <h2 className="heading-secondary ma-bt-lg">{`About ${report.locationName} report`}</h2>
-          <p className="description__text">{report.summary}</p>
-        </div>
-      </section>
-
-      <section className="section-map">
-        {/* <div id="map" data-locations={JSON.stringify([report.location])} data-details={JSON.stringify([report.locationName])}></div> */}
-        <Mapbox locations={[report.location]} details={report}/>
-      </section>
-
-      <section className="section-pictures">
-        {report.images.map((img, i) => (
-          <div className="picture-box" key={i}>
-            <img className={`picture-box__img picture-box__img--${i + 1}`} src={img} alt={`The Park Camper Tour ${i + 1}`} />
-          </div>
-        ))}
-      </section>
-    </div>
-  )
-}
-
-export default ReportDetailScreen
+export default ReportDetailScreen;

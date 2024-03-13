@@ -1,27 +1,30 @@
-import React, { useEffect, useRef } from 'react';
-import mapboxgl from 'mapbox-gl';
+import React, { useEffect, useRef } from "react";
+import mapboxgl from "mapbox-gl";
 
 const Mapbox = ({ locations, details }) => {
   const mapContainer = useRef(null);
 
   useEffect(() => {
-    mapboxgl.accessToken = 'pk.eyJ1Ijoibm9zZWlsb3MiLCJhIjoiY2x0NnRscm1sMGFwdzJpbTdmY3Y0bnduYSJ9.OfpiD5hWqBoL0VLC5jRpWA';
+    mapboxgl.accessToken =
+      "pk.eyJ1Ijoibm9zZWlsb3MiLCJhIjoiY2x0NnRscm1sMGFwdzJpbTdmY3Y0bnduYSJ9.OfpiD5hWqBoL0VLC5jRpWA";
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/noseilos/clto2zidz01mu01pj8rko7hbo',
+      style: "mapbox://styles/noseilos/clto2zidz01mu01pj8rko7hbo",
       scrollZoom: true,
+      pitch: 45,
+      bearing: -17.6,
     });
 
     const bounds = new mapboxgl.LngLatBounds();
 
     locations.forEach((loc) => {
-      const el = document.createElement('div');
-      el.className = 'marker';
+      const el = document.createElement("div");
+      el.className = "marker";
 
       new mapboxgl.Marker({
         element: el,
-        anchor: 'bottom',
+        anchor: "bottom",
       })
         .setLngLat(loc.coordinates)
         .addTo(map);
@@ -44,11 +47,20 @@ const Mapbox = ({ locations, details }) => {
         right: 150,
       },
     });
+    map.addControl(new mapboxgl.AttributionControl(), "bottom-right");
+    window.addEventListener("resize", () => {
+      map.resize();
+    });
 
     return () => map.remove();
   }, [locations]);
 
-  return <div ref={mapContainer} style={{ width: '100%', height: '500px' }} />;
+  return (
+    <div
+      ref={mapContainer}
+      style={{ width: "100%", height: "600px", overflow: "hidden" }}
+    />
+  );
 };
 
 export default Mapbox;

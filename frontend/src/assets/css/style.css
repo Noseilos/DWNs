@@ -122,7 +122,7 @@ html {
 .heading-primary span,
 .heading-tertirary span {
   padding: 1rem 1.5rem;
-  line-height: 1;
+  line-height: 1.5;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   background-image: -webkit-gradient(
@@ -400,16 +400,16 @@ html {
 }
 
 .section-description {
-  background-color: #fcfcfc;
+  background-color: white;
   margin-top: calc(0px - var(--section-rotate));
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 .section-description > * {
-  padding: 0 8vw;
-  padding-top: 14vw;
-  padding-bottom: calc(1vw + var(--section-rotate));
+  padding: 0 10vw;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
   -webkit-box-flex: 0;
   -ms-flex: 0 0 50%;
   flex: 0 0 50%;
@@ -489,7 +489,7 @@ html {
     100% calc(100% - var(--section-rotate)),
     0 100%
   );
-  margin-top: calc(0px - var(--section-rotate));
+  margin-top: 28rem;
   position: relative;
   z-index: 1000;
 }
@@ -513,7 +513,7 @@ html {
 
 .section-map {
   position: relative;
-  height: 65rem;
+  height: 35rem;
   margin-top: calc(0px - var(--section-rotate));
 }
 
@@ -669,7 +669,7 @@ html {
 }
 
 .action_btn {
-  font-family: lato,sans-serif;
+  font-family: lato, sans-serif;
   font-weight: bold;
   font-size: 1em;
   letter-spacing: 0.1em;
@@ -1174,6 +1174,16 @@ html {
   justify-self: end;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.cardImage {
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#7dd56f),
+    to(#28b487)
+  );
 }
 
 .error {

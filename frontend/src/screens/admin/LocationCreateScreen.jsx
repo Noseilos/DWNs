@@ -8,7 +8,7 @@ import {
   useUploadLocationImageMutation,
 } from "../../slices/locationSlice";
 import { toast } from "react-toastify";
-import { Form, Button, FormGroup, FormControl } from "react-bootstrap";
+import { Form, Button, FormGroup } from "react-bootstrap";
 import styles from "../styles/UserEdit.module.css";
 import FormContainer from "../../components/FormContainer";
 import Header from "../../components/Header";
@@ -68,7 +68,6 @@ const LocationCreateScreen = () => {
     <>
       <main className={styles.useredit_container2}>
         <Header />
-
         <div className={styles.useredit_container}>
           <div className={styles.form}>
             <div className={styles.userlist_title}>
