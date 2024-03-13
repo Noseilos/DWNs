@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { FaTimes, FaBan, FaTrashRestore, FaCheck } from "react-icons/fa";
@@ -14,31 +15,37 @@ import Header from "../../components/Header";
 
 const DeletedUserScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showRestoreModal, setShowRestoreModal] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState(null);
 
   const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation();
   const [restoreUser] = useRestoreUserMutation();
 
-  const deleteHandler = async (id) => {
-    if (window.confirm("Permanently delete user?")) {
-      try {
-        await deleteUser(id);
-        refetch();
-        toast.success("User deleted successfully");
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+  const deleteConfirmed = async () => {
+    setShowDeleteModal(false);
+    try {
+      await deleteUser(userIdToDelete);
+      refetch();
+      toast.success("User deleted successfully");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
 
-  const restoreHandler = async (id) => {
-    if (window.confirm("Restore User?")) {
-      try {
-        await restoreUser(id);
-        refetch();
-        toast.success("User restored successfully");
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+  const restoreHandler = (id) => {
+    setUserIdToDelete(id);
+    setShowRestoreModal(true);
+  };
+
+  const restoreConfirmed = async () => {
+    setShowRestoreModal(false);
+    try {
+      await restoreUser(userIdToDelete);
+      refetch();
+      toast.success("User restored successfully");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
 
@@ -49,25 +56,26 @@ const DeletedUserScreen = () => {
     <>
       <div className={styles.userlist_container2}>
         <Header />
-        {loadingDelete && <Loader />}
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">
-            {error?.data?.message || error.error}
-          </Message>
-        ) : (
-          <div className={styles.userlist_container}>
-            <div className={styles.userlist}>
-              <div className={styles.userlist_title}>
-                <h4>Deleted Users</h4>
-                <LinkContainer
-                  to="/admin/users"
-                  style={{ float: "right", color: "white" }}
-                >
-                  <Button className="cta">Registered Users</Button>
-                </LinkContainer>
-              </div>
+
+        <div className={styles.userlist_container}>
+          <div className={styles.userlist}>
+            <div className={styles.userlist_title}>
+              <h4>Deleted Users</h4>
+              <LinkContainer
+                to="/admin/users"
+                style={{ float: "right", color: "white" }}
+              >
+                <Button className="cta">Registered Users</Button>
+              </LinkContainer>
+            </div>
+            {loadingDelete && <Loader />}
+            {isLoading ? (
+              <Loader />
+            ) : error ? (
+              <Message variant="danger">
+                {error?.data?.message || error.error}
+              </Message>
+            ) : (
               <Table striped hover responsive className={styles.table}>
                 <thead>
                   <tr>
@@ -106,7 +114,7 @@ const DeletedUserScreen = () => {
                         <button
                           className={styles.action_btn2}
                           style={{ margin: "10px" }}
-                          onClick={() => deleteHandler(user._id)}
+                          onClick={() => setShowDeleteModal(true)}
                         >
                           <FaBan style={{ color: "white" }} />
                         </button>
@@ -115,10 +123,37 @@ const DeletedUserScreen = () => {
                   ))}
                 </tbody>
               </Table>
+            )}
+          </div>
+        </div>
+      </div>
+      {/* Modal for Delete Confirmation */}
+      {showDeleteModal && (
+        <div className={styles.modal}>
+          <div className={styles.modal_content}>
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to permanently delete user?</p>
+            <div className={styles.modal_buttons}>
+              <Button onClick={deleteConfirmed}>Yes</Button>
+              <Button onClick={() => setShowDeleteModal(false)}>No</Button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Modal for Restore Confirmation */}
+      {showRestoreModal && (
+        <div className={styles.modal}>
+          <div className={styles.modal_content}>
+            <h2>Confirm Restoration</h2>
+            <p>Are you sure you want to restore user?</p>
+            <div className={styles.modal_buttons}>
+              <Button onClick={restoreConfirmed}>Yes</Button>
+              <Button onClick={() => setShowRestoreModal(false)}>No</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
