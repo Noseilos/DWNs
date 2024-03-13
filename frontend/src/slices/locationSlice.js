@@ -35,6 +35,23 @@ export const locationsApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
             })
         }),
+
+        getLocationDetails: builder.query({
+            query: (locId) => ({
+                url: `${LOCATIONS_URL}/${locId}`,
+            }),
+            keepUnusedDataFor: 5,
+        }),
+        
+        updateLocation: builder.mutation({
+            query: (data) => ({
+                url: `${LOCATIONS_URL}/${data.locationId}`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ['Location'],
+        }),
+
     })
 });
 
@@ -42,5 +59,7 @@ export const {
     useCreateLocationMutation,
     useUploadLocationImageMutation,
     useGetLocationsQuery,
-    useDeleteLocationMutation
+    useDeleteLocationMutation,
+    useGetLocationDetailsQuery,
+    useUpdateLocationMutation,
 } = locationsApiSlice;
