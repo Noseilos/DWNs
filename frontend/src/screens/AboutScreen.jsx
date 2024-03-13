@@ -15,10 +15,11 @@ function About() {
           alt="DWN Logo"
         />
         <div className={styles.information}>
-          <h2 style={{ margin: "2rem 5rem" }}>
-            About Dynamic Waste Navigations
+          <h2 style={{ margin: "1rem 5rem" }}>
+            About
+            <br /> Dynamic Waste Navigations
           </h2>
-          <div style={{ margin: "2rem 5rem" }}>
+          <div style={{ margin: "1rem 1rem" }}>
             <p>
               Discover the story behind Dynamic Waste Navigations, a project
               committed to sustainable waste management in TUP-Taguig. Learn
@@ -39,9 +40,9 @@ function About() {
         <div>
           <img src={img2} alt="Our Team" />
         </div>
-        <div style={{ marginTop: "5rem"}}>
+        <div style={{ marginTop: "5rem" }}>
           <a href="https://github.com/Noseilos/DWNs">
-            <FaGithub style={{ color: "white", fontSize: "5rem" }}/>
+            <FaGithub style={{ color: "white", fontSize: "5rem" }} />
           </a>
         </div>
       </section>

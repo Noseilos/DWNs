@@ -6,6 +6,7 @@ import { useGetReportsQuery } from "../../slices/reportsSlice";
 import { Bar, Doughnut } from "react-chartjs-2";
 import styles from "../styles/UserList.module.css";
 import Header from "../../components/Header";
+import { FaList } from "react-icons/fa";
 
 const ReportListScreen = () => {
   const { data: reports, isLoading, error } = useGetReportsQuery();
@@ -21,7 +22,7 @@ const ReportListScreen = () => {
   if (!reports) {
     return <div>No reports data available.</div>;
   }
-  
+
   const reportsPerDay = {};
   reports.forEach((report) => {
     const date = new Date(report.createdAt);
@@ -46,7 +47,6 @@ const ReportListScreen = () => {
         data: Object.values(reportsPerDay),
       },
     ],
-    
   };
 
   const chartOptions = {
@@ -55,10 +55,10 @@ const ReportListScreen = () => {
         title: {
           display: true,
           text: "Date",
-          color: "rgba(120, 144, 156, 1)",
+          color: "white",
         },
         ticks: {
-          color: "rgba(120, 144, 156, 1)",
+          color: "white",
         },
         grid: {
           color: "rgba(200, 200, 200, 1)",
@@ -68,10 +68,10 @@ const ReportListScreen = () => {
         title: {
           display: true,
           text: "Number of Reports",
-          color: "rgba(120, 144, 156, 1)",
+          color: "white",
         },
         ticks: {
-          color: "rgba(120, 144, 156, 1)",
+          color: "white",
         },
         grid: {
           color: "rgba(200, 200, 200, 1)",
@@ -119,14 +119,21 @@ const ReportListScreen = () => {
         borderWidth: 1,
       },
     ],
-    
+  };
+  const doughnutOptions = {
+    plugins: {
+      legend: {
+        labels: {
+          color: "white", // Set the legend labels color to white
+        },
+      },
+    },
   };
 
   return (
     <>
       <main className={styles.userlist_container2}>
         <Header />
-        <h1>Reports</h1>
         {isLoading ? (
           <Loader />
         ) : error ? (
@@ -135,42 +142,74 @@ const ReportListScreen = () => {
           </Message>
         ) : (
           <>
-            <Table striped hover responsive className="table-sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>USER</th>
-                  <th>LOCATION</th>
-                  <th>SUMMARY</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(reports) &&
-                  reports.map((report) => (
-                    <tr key={report.id}>
-                      <td>{report.id}</td>
-                      <td>{report.user}</td>
-                      <td>{report.locationName}</td>
-                      <td>{report.summary}</td>
-                      <td>
-                        <LinkContainer to={`/report/${report.id}`}>
-                          <Button variant="light" className="btn-sm">
-                            Details
-                          </Button>
-                        </LinkContainer>
-                      </td>
+            <div className={styles.userlist_container}>
+              <div className={styles.reportsContainer}>
+                <div className={styles.userlist_title}>
+                  <h4>Reports</h4>
+                </div>
+                <Table striped hover responsive className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>REPORT ID</th>
+                      <th>USER ID</th>
+                      <th>LOCATION</th>
+                      <th>SUMMARY</th>
+                      <th></th>
                     </tr>
-                  ))}
-              </tbody>
-            </Table>
-
-            <Bar data={barChartData} options={chartOptions} />
-            {/* <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/> */}
-            <Doughnut
-              data={doughnutData}
-              style={{ background: "rgba(56, 56, 56, 0.7)" }}
-            />
+                  </thead>
+                  <tbody>
+                    {Array.isArray(reports) &&
+                      reports.map((report) => (
+                        <tr key={report.id}>
+                          <td>{report.id}</td>
+                          <td>{report.user}</td>
+                          <td>{report.locationName}</td>
+                          <td>{report.summary}</td>
+                          <td>
+                            <LinkContainer to={`/report/${report.id}`}>
+                              <button className={styles.action_btn}>
+                                <FaList />
+                              </button>
+                            </LinkContainer>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+            <div className={styles.userlist_container}>
+              <div className={styles.reportsContainer}>
+                <div className={styles.userlist_title}>
+                  <h4>Reports Per Day</h4>
+                </div>
+                <Bar
+                  data={barChartData}
+                  options={chartOptions}
+                  style={{
+                    background: "rgba(56, 56, 56, 0.7)",
+                    borderRadius: "10px",
+                    color: "white",
+                  }}
+                />
+                {/* <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/> */}
+              </div>
+            </div>
+            <div className={styles.userlist_container}>
+              <div className={styles.reportsContainer}>
+                <div className={styles.userlist_title}>
+                  <h4>Reports Per Location</h4>
+                </div>
+                <Doughnut
+                  data={doughnutData}
+                  options={doughnutOptions}
+                  style={{
+                    background: "rgba(56, 56, 56, 0.7)",
+                    borderRadius: "10px",
+                  }}
+                />
+              </div>
+            </div>
           </>
         )}
       </main>
