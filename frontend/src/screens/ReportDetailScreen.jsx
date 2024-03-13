@@ -73,8 +73,10 @@ const ReportDetailScreen = () => {
             <Row xs={1} md={2} lg={3} className="g-4">
               {images.map((img, i) => (
                 <Col key={i}>
-                  <Card className="h-100 cardImage">
-                    <Card.Img variant="top" src={img} />
+                  <Card className="cardImage">
+                    <div className="imageWrapper">
+                      <Card.Img src={img} className="image" />
+                    </div>
                   </Card>
                 </Col>
               ))}

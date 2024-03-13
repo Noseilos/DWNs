@@ -1184,6 +1184,18 @@ html {
     from(#7dd56f),
     to(#28b487)
   );
+  height: auto;
+}
+
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .error {
