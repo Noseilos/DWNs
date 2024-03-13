@@ -154,7 +154,7 @@ const ReportListScreen = () => {
                       <th>USER ID</th>
                       <th>LOCATION</th>
                       <th>SUMMARY</th>
-                      <th></th>
+                      <th>ACTION</th>
                     </tr>
                   </thead>
                   <tbody>
