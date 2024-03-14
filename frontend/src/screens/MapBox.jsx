@@ -12,6 +12,8 @@ const Mapbox = ({ locations, details }) => {
       container: mapContainer.current,
       style: "mapbox://styles/noseilos/clto2zidz01mu01pj8rko7hbo",
       scrollZoom: true,
+      pitchWithRotate: false,
+      pitch: 60,
       minPitch: 60,
       bearing: -17.6,
       maxZoom: 17.5

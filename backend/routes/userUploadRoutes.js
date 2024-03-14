@@ -40,8 +40,8 @@ router.post('/', upload.single('image'), async (req, res) => {
     });
 });
 
-router.put('/:userId', upload.single('image'), async (req, res) => {
-    
+router.put('/', upload.single('image'), async (req, res) => {
+    // console.log(req.file.path)
     res.send({
         message: 'Image uploaded',
         image: `/${req.file.path}`
