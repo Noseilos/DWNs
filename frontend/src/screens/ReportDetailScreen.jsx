@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetReportDetailsQuery } from "../slices/reportsSlice";
 import Spinner from "../components/Spinner";
@@ -27,6 +27,12 @@ const ReportDetailScreen = () => {
 
   const [verifyReport, { isLoading: loadingUpdate }] = useVerifyReportMutation();
 
+  useEffect(() => {
+    if (report) {
+      setIsVerified(report.isVerified);
+    }
+  }, [report]);
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -35,8 +41,9 @@ const ReportDetailScreen = () => {
     e.preventDefault();
     try {
       await verifyReport({ reportId, isVerified });
-      toast.success("User Updated Successfully");
+      toast.success("Report Verified Successfully");
       refetch();
+      navigate("/admin/reports");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }

@@ -51,12 +51,12 @@ const router = createBrowserRouter(
       <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
       <Route path="/reset-password" element={<ResetPasswordScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
-      <Route path="/report/:id" element={<ReportDetailScreen />} />
       <Route path="/about" element={<AboutScreen />} />
       <Route path="/news" element={<NewsScreen />} />
-      <Route path="/myreports" element={<MyReportsScreen />} />
 
       <Route path="" element={<PrivateRoute />}>
+        <Route path="/myreports" element={<MyReportsScreen />} />
+        <Route path="/report/:id" element={<ReportDetailScreen />} />
         <Route path="/profile" element={<ProfileScreen />}></Route>
         <Route path="/app" element={<AppLayout />} />
       </Route>

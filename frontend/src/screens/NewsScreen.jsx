@@ -22,7 +22,7 @@ function News() {
               for sustainable living. This ethos encourages individuals to
               minimize their ecological footprint by adopting mindful practices
               in their daily lives.
-              <button className={styles.btn}>Learn More</button>
+              
             </p>
           </div>
         </section>
@@ -39,7 +39,7 @@ function News() {
               packaging, conserving water and energy, or embracing a minimalist
               lifestyle, every effort to reduce contributes to a healthier
               planet.
-              <button className={styles.btn}>Learn More</button>
+              
             </p>
           </div>
         </section>
@@ -55,7 +55,7 @@ function News() {
               reusable shopping bags and containers to repurposing items for new
               purposes, embracing reuse not only conserves resources but also
               fosters creativity and innovation.
-              <button className={styles.btn}>Learn More</button>
+              
             </p>
           </div>
         </section>

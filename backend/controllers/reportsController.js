@@ -38,7 +38,7 @@ const createReports = catchAsync(async (req, res, next) => {
 });
 
 const getAllReports = asyncHandler(async (req, res, next) => {
-  const reports = await Reports.find({})
+  const reports = await Reports.find({ isVerified: true })
   res.status(200).json(reports);
 })
 
