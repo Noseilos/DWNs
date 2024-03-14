@@ -97,30 +97,26 @@ function Form() {
 
   return (
     <>
-      {userInfo ? (
-        <form
-          className={`${styles.form} ${loadingCreate ? styles.loading : ""}`}
-          onSubmit={handleSubmit}
-        >
-          <div className={styles.row}>
-            <label htmlFor="locationSelect">Location</label>
+    { userInfo ? (
+    <form
+      className={`${styles.form} ${loadingCreate ? styles.loading : ""}`}
+      onSubmit={handleSubmit}
+    >
+      <div className="flex flex-row gap-4">
+        <div className="w-50">
+          <label htmlFor="Longitude">Longitude</label>
+          <input type="text" disabled value={lng ? lng : ''}/>
+        </div>
+        <div className="w-50">
+          <label htmlFor="Latitude">Latitude</label>
+          <input type="text" disabled value={lat ? lat : ''}/>
+        </div>
+      </div>
 
-            <select
-              id="locationSelect"
-              value={locationName}
-              onChange={handleLocationChange}
-              className={styles.select}
-              required
-            >
-              <option value="">Select a location</option>
-              {locations &&
-                locations.map((location) => (
-                  <option key={location.id} value={location.id}>
-                    {location.name}
-                  </option>
-                ))}
-            </select>
-          </div>
+      <div className={styles.row}>
+        <label htmlFor="Location name">Location Name</label>
+        <input type="text" onChange={handleLocationChange} value={locationName} required/>
+      </div>
 
           <div className={styles.row}>
             <label htmlFor="summary">Summary</label>

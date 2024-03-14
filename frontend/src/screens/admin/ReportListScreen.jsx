@@ -3,27 +3,36 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button, Modal } from "react-bootstrap";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import { useGetReportsQuery } from "../../slices/reportsSlice";
+import { useGetReportsQuery, useDeleteReportMutation } from "../../slices/reportsSlice";
 import { Bar, Doughnut } from "react-chartjs-2";
 import styles from "../styles/UserList.module.css";
 import Header from "../../components/Header";
 import { FaList, FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const ReportListScreen = () => {
-  const { data: reports, isLoading, error } = useGetReportsQuery();
+  const { data: reports, isLoading, error, refetch } = useGetReportsQuery();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [reportIdToDelete, setReportIdToDelete] = useState(null);
 
-  const handleCloseDeleteModal = () => setShowDeleteModal(false);
-  const handleShowDeleteModal = (reportId) => {
-    setReportIdToDelete(reportId);
-    setShowDeleteModal(true);
+  const [deleteReport, { isLoading: loadingDelete }] =
+    useDeleteReportMutation();
+
+  const deleteConfirmed = async () => {
+    setShowDeleteModal(false);
+    try {
+      await deleteReport(reportIdToDelete);
+      toast.success("Report Deleted");
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
-  const handleDeleteConfirmed = () => {
-    // Perform delete action here with reportIdToDelete
-    handleCloseDeleteModal();
+  const deleteHandler = (id) => {
+    setReportIdToDelete(id);
+    setShowDeleteModal(true);
   };
 
   return (
@@ -36,6 +45,7 @@ const ReportListScreen = () => {
               <div className={styles.userlist_title}>
                 <h4>Reports</h4>
               </div>
+              {loadingDelete && <Loader />}
               {isLoading ? (
                 <Loader />
               ) : error ? (
@@ -67,6 +77,13 @@ const ReportListScreen = () => {
                                 <FaList />
                               </button>
                             </LinkContainer>
+                            <button
+                            className={styles.action_btn2}
+                            style={{ margin: "10px" }}
+                            onClick={() => deleteHandler(report._id)}
+                          >
+                            <FaTrash style={{ color: "white" }} />
+                          </button>
                           </td>
                         </tr>
                       ))}
@@ -77,6 +94,19 @@ const ReportListScreen = () => {
           </div>
         </>
       </main>
+      {/* Modal for Delete Confirmation */}
+      {showDeleteModal && (
+        <div className={styles.modal}>
+          <div className={styles.modal_content}>
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this location?</p>
+            <div className={styles.modal_buttons}>
+              <Button onClick={deleteConfirmed}>Yes</Button>
+              <Button onClick={() => setShowDeleteModal(false)}>No</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

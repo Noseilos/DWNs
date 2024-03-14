@@ -58,13 +58,13 @@ const getReportsById = asyncHandler(async (req, res) => {
   }
 })
 const updateReportsById = updateOne(Reports);
-const deleteReportsById = deleteOne(Reports);
+const deleteReport = deleteOne(Reports);
 
 export {
   createReports,
   getAllReports,
   getReportsById,
   updateReportsById,
-  deleteReportsById,
+  deleteReport,
   getMyReport
 }
