@@ -39,6 +39,7 @@ function Form() {
     setLat(params.get("lat"));
     setLng(params.get("lng"));
     setLocationName(locationName);
+    setWasteName(wasteName);
   }, [location, locationName]);
 
   const handleLocationChange = (e) => {
@@ -80,6 +81,7 @@ function Form() {
       },
     };
 
+    console.log(newReport);
     try {
       await createReport(newReport).unwrap();
       navigate("/app");
@@ -133,10 +135,10 @@ function Form() {
               onChange={handleWasteChange}
               required
             >
-              <option value="">Select a waste</option>
+              <option value="">- Select -</option>
               {wastes &&
                 wastes.map((waste) => (
-                  <option key={waste.id} value={waste.id}>
+                  <option key={waste._id} value={waste.id}>
                     {waste.name}
                   </option>
                 ))}

@@ -6,8 +6,6 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { useGetMyReportsQuery } from "../slices/reportsSlice";
 import { Line, Bar, Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
-import { format } from "date-fns";
 import styles from "./styles/UserList.module.css";
 import Header from "../components/Header";
 

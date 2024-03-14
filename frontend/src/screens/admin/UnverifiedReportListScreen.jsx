@@ -13,7 +13,7 @@ import Header from "../../components/Header";
 import { FaList, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const ReportListScreen = () => {
+const UnverifiedReportListScreen = () => {
   const { data: reports, isLoading, error, refetch } = useGetReportsQuery();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -199,7 +199,7 @@ const ReportListScreen = () => {
     },
   };
 
-  const validatedReports = reports?.filter((report) => report.isVerified);
+  const unvalidatedReports = reports?.filter((report) => !report.isVerified);
 
   return (
     <main className={styles.userlist_container2}>
@@ -207,15 +207,15 @@ const ReportListScreen = () => {
       <div className={styles.userlist_container}>
         <div className={styles.reportsContainer}>
           <div className={styles.userlist_title}>
-            <h4>Verified Reports</h4>
+            <h4>Unverified Reports</h4>
             <LinkContainer
-                to="/admin/unverified-reports"
-                style={{ float: "right", color: "white", marginLeft: "35rem" }}
-              >
-                <Button className="cta" style={{ justifyContent: "end" }}>
-                  Unverified Reports
-                </Button>
-              </LinkContainer>
+              to="/admin/reports"
+              style={{ float: "right", color: "white", marginLeft: "35rem" }}
+            >
+              <Button className="cta" style={{ justifyContent: "end" }}>
+                Verified Reports
+              </Button>
+            </LinkContainer>
           </div>
           {loadingDelete && <Loader />}
           {error ? (
@@ -235,8 +235,8 @@ const ReportListScreen = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.isArray(validatedReports) &&
-                    validatedReports.map((report) => (
+                  {Array.isArray(unvalidatedReports) &&
+                    unvalidatedReports.map((report) => (
                       <tr key={report.id}>
                         <td>{report.id}</td>
                         <td>{report.user}</td>
@@ -260,33 +260,6 @@ const ReportListScreen = () => {
                     ))}
                 </tbody>
               </Table>
-              <div className={styles.reportsContainer}>
-                <div className={styles.userlist_title}>
-                  <h4>Reports Per Day</h4>
-                </div>
-                <Bar
-                  data={barChartData}
-                  options={chartOptions}
-                  style={{
-                    background: "rgba(56, 56, 56, 0.7)",
-                    borderRadius: "10px",
-                    color: "white",
-                  }}
-                />
-              </div>
-              <div className={styles.reportsContainer}>
-                <div className={styles.userlist_title}>
-                  <h4>Reports Per Location</h4>
-                </div>
-                <Doughnut
-                  data={doughnutData}
-                  options={doughnutOptions}
-                  style={{
-                    background: "rgba(56, 56, 56, 0.7)",
-                    borderRadius: "10px",
-                  }}
-                />
-              </div>
             </>
           )}
         </div>
@@ -308,4 +281,4 @@ const ReportListScreen = () => {
   );
 };
 
-export default ReportListScreen;
+export default UnverifiedReportListScreen;

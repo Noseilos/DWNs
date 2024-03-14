@@ -8,10 +8,10 @@ const reportsSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'A report must have a location name'],
     },
-    locationName: {
+    wasteName: {
       type: String,
       trim: true,
-      required: [true, 'A report must have a location name'],
+      required: [true, 'A report must have a waste name'],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

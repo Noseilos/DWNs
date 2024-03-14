@@ -42,6 +42,7 @@ import DeletedUserScreen from "./screens/admin/DeletedUserScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import WasteEditScreen from "./screens/admin/WasteEditScreen";
+import UnverifiedReportListScreen from "./screens/admin/UnverifiedReportListScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -67,6 +68,7 @@ const router = createBrowserRouter(
 
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/reports" element={<ReportListScreen />} />
+        <Route path="/admin/unverified-reports" element={<UnverifiedReportListScreen />} />
         <Route path="/admin/report/:id" element={<ReportDetailScreen />} />
         <Route path="/admin/wastes" element={<WasteListScreen />} />
         <Route path="/admin/waste/edit/:id" element={<WasteEditScreen />} />

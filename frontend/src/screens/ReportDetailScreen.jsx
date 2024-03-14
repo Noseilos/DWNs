@@ -115,8 +115,7 @@ const ReportDetailScreen = () => {
           
         </div>
       </div>
-    </main>
-    <FormContainer>
+      <FormContainer>
       {loadingUpdate && <Loader />}
       {isLoading ? (
         <Loader />
@@ -125,7 +124,7 @@ const ReportDetailScreen = () => {
       ) : (
         <Form onSubmit={submitHandler} >
 
-          <Form.Group controlId="isAdmin" className={styles.row}>
+          <Form.Group controlId="isAdmin" className={styles.row} style={{marginTop: "0rem"}}>
             <Form.Check
               type="checkbox"
               label="Verify report"
@@ -143,6 +142,8 @@ const ReportDetailScreen = () => {
         </Form>
       )}
     </FormContainer>
+    </main>
+    
   </>
   );
 };
