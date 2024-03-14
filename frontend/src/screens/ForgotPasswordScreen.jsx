@@ -7,9 +7,9 @@ import Header from "../components/Header";
 import FormContainer from "../components/FormContainer";
 import { Divider } from "@mui/material";
 import { Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const ForgotPasswordScreen = () => {
-  const dispatch = useDispatch(); // Initializing useDispatch hook
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
@@ -22,8 +22,8 @@ const ForgotPasswordScreen = () => {
     try {
       const response = await axios.post("/api/users/forgotpassword", { email });
       setMessage(response.data.message);
+      toast.success("Email has been sent!");
       // Dispatching action to update credentials in Redux store
-      dispatch(setCredentials(response.data.userInfo));
     } catch (error) {
       setMessage(error.response.data.error);
     }
@@ -48,7 +48,6 @@ const ForgotPasswordScreen = () => {
           <Button type="submit" variant="primary">
             Submit
           </Button>
-          {message && <p>{message}</p>}
         </form>
       </FormContainer>
     </main>

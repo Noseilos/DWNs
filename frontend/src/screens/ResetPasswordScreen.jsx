@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { setCredentials } from "./../slices/authSlice";
 import styles from "./styles/Login.module.css";
 import Header from "../components/Header";
 import { Divider } from "@mui/material";
 import { Button } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ResetPasswordScreen = () => {
-  const dispatch = useDispatch();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
-
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+  const navigate = useNavigate();
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
@@ -28,7 +31,6 @@ const ResetPasswordScreen = () => {
       // Assuming you store the reset token in the URL query parameter named 'token'
       const queryParams = new URLSearchParams(window.location.search);
       const resetToken = queryParams.get("resetToken");
-      console.log(resetToken);
       const response = await axios.post(
         `/api/users/resetpassword/${resetToken}`,
         {
@@ -37,8 +39,8 @@ const ResetPasswordScreen = () => {
         }
       );
       setMessage(response.data.message);
-      // Dispatching action to update credentials in Redux store
-      dispatch(setCredentials(response.data.userInfo));
+      navigate(redirect);
+      toast.success("Password reset successful!");
     } catch (error) {
       setMessage(error.response.data.error);
     }
@@ -72,7 +74,6 @@ const ResetPasswordScreen = () => {
             Reset Password
           </Button>
         </form>
-        {message && <p>{message}</p>}
       </FormContainer>
     </main>
   );

@@ -4,9 +4,6 @@ import generateToken from "../utils/generateToken.js";
 import Email from "../utils/email.js";
 import crypto from "crypto";
 
-import path from "path";
-import fs from "fs/promises";
-
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public

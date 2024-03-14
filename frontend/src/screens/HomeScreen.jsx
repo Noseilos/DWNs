@@ -4,6 +4,7 @@ import img from "../assets/dwn.png";
 import { useSelector } from "react-redux";
 import styles from "./styles/Homepage.module.css";
 import Header from "../components/Header";
+import { ToastContainer } from "react-bootstrap";
 
 const HomeScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -19,7 +20,6 @@ const HomeScreen = () => {
           <button className={styles.start_btn}>Get Started</button>
         </Link>
       </section>
-      <div></div>
     </>
   );
 };

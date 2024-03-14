@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, ToastContainer } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
@@ -38,6 +38,7 @@ const LoginScreen = () => {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate(redirect);
+      toast.success("Login successful!"); 
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -48,7 +49,7 @@ const LoginScreen = () => {
       <Header />
       <FormContainer>
         <form onSubmit={submitHandler} className={styles.form}>
-          <Divider>LOGIN</Divider>
+          <Divider>LOGIN </Divider>
           <Form.Group className={styles.row}>
             <Form.Label>Email Address</Form.Label>
             <input
