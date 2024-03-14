@@ -7,7 +7,6 @@ import { useProfileMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import {
   useUpdateUserImageMutation,
-  useUploadUserImageMutation,
 } from "../slices/usersApiSlice";
 import styles from "./styles/ProfileScreen.module.css";
 import Header from "../components/Header";
@@ -56,7 +55,7 @@ const ProfileScreen = () => {
     }
   };
 
-  if (loadingUpload) return <Loader />;
+  // if (loadingUpload) return <Loader />;
   const uploadFileHandler = async (e) => {
     const formData = new FormData();
 
