@@ -130,6 +130,7 @@ function Form() {
 
           <div className={styles.row}>
             <select
+            className={styles.select}
               id="wasteSelect"
               value={wasteName}
               onChange={handleWasteChange}
