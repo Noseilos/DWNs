@@ -38,6 +38,11 @@ const DeletedUserScreen = () => {
     setShowRestoreModal(true);
   };
 
+  const deleteHandler = (id) => {
+    setUserIdToDelete(id);
+    setShowDeleteModal(true);
+  };
+
   const restoreConfirmed = async () => {
     setShowRestoreModal(false);
     try {
@@ -114,7 +119,7 @@ const DeletedUserScreen = () => {
                         <button
                           className={styles.action_btn2}
                           style={{ margin: "10px" }}
-                          onClick={() => setShowDeleteModal(true)}
+                          onClick={() => deleteHandler(user._id)}
                         >
                           <FaBan style={{ color: "white" }} />
                         </button>

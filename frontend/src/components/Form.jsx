@@ -129,6 +129,7 @@ function Form() {
           </div>
 
           <div className={styles.row}>
+          <label htmlFor="Waste">Waste</label>
             <select
             className={styles.select}
               id="wasteSelect"

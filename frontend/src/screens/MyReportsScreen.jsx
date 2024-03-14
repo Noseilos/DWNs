@@ -9,6 +9,7 @@ import { Line, Bar, Doughnut } from "react-chartjs-2";
 import styles from "./styles/UserList.module.css";
 import Header from "../components/Header";
 
+import "chart.js/auto"
 const MyReportsScreen = () => {
   const { data: reports, isLoading, error } = useGetMyReportsQuery();
 
