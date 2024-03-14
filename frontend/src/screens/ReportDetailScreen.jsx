@@ -1,15 +1,23 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetReportDetailsQuery } from "../slices/reportsSlice";
 import Spinner from "../components/Spinner";
 import Mapbox from "./MapBox";
 import styles from "./styles/UserEdit.module.css";
 import "../assets/css/style.css";
 import Header from "../components/Header";
-import { Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import FormContainer from "../components/FormContainer";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import { useVerifyReportMutation } from "../slices/reportsSlice";
+import { toast } from 'react-toastify'
 
 const ReportDetailScreen = () => {
   const { id: reportId } = useParams();
+  const [isVerified, setIsVerified] = useState(false);
+  const navigate = useNavigate();
+
   const {
     data: report,
     isLoading,
@@ -17,14 +25,29 @@ const ReportDetailScreen = () => {
     error,
   } = useGetReportDetailsQuery(reportId);
 
+  const [verifyReport, { isLoading: loadingUpdate }] = useVerifyReportMutation();
+
   if (isLoading) {
     return <Spinner />;
   }
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      await verifyReport({ reportId, isVerified });
+      toast.success("User Updated Successfully");
+      refetch();
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
 
   // Check if report is not undefined before accessing its properties
   const images = report?.images || [];
 
   return (
+    
+    <>
     <main className={styles.useredit_container2}>
       <Header />
       <div className={styles.useredit_container}>
@@ -82,9 +105,38 @@ const ReportDetailScreen = () => {
               ))}
             </Row>
           </section>
+          
         </div>
       </div>
     </main>
+    <FormContainer>
+      {loadingUpdate && <Loader />}
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <Form onSubmit={submitHandler} >
+
+          <Form.Group controlId="isAdmin" className={styles.row}>
+            <Form.Check
+              type="checkbox"
+              label="Verify report"
+              checked={isVerified}
+              onChange={(e) => setIsVerified(e.target.checked)}
+            />
+          </Form.Group>
+
+          <Button type="submit" className="my-2" style={{marginRight: "10px"}}>
+            Update
+          </Button>
+          <Link to={`/admin/users`} className="btn btn-light my-3">
+            Done
+          </Link>
+        </Form>
+      )}
+    </FormContainer>
+  </>
   );
 };
 

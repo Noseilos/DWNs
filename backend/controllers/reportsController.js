@@ -11,7 +11,7 @@ const createReports = catchAsync(async (req, res, next) => {
     const { locationName, summary, images, location, _id } = req.body;
 
     const report = new Reports({
-      user: _id,
+      report: _id,
       locationName,
       summary,
       images,
@@ -43,7 +43,7 @@ const getAllReports = asyncHandler(async (req, res, next) => {
 })
 
 const getMyReport = asyncHandler(async (req, res) => { 
-  const reports = await Reports.find({ user: req.user._id });
+  const reports = await Reports.find({ report: req.report._id });
   res.status(200).json(reports);
 });
 
@@ -60,11 +60,27 @@ const getReportsById = asyncHandler(async (req, res) => {
 const updateReportsById = updateOne(Reports);
 const deleteReport = deleteOne(Reports);
 
+const verifyReport = asyncHandler(async (req, res) => {
+  const report = await Reports.findById(req.params.id);
+
+  if (report) {
+
+    report.isVerified = true;
+    await report.save();
+
+    res.status(200).json({ message: "Report verified successfully" });
+  } else {
+    res.status(404);
+    throw new Error("Report not found");
+  }
+});
+
 export {
   createReports,
   getAllReports,
   getReportsById,
   updateReportsById,
   deleteReport,
-  getMyReport
+  getMyReport,
+  verifyReport
 }

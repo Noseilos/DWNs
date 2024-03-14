@@ -63,6 +63,14 @@ export const reportsApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH'
             })
         }),
+        verifyReport: builder.mutation({
+            query: (data) => ({
+                url: `${REPORTS_URL}/admin/${data.reportId}`,
+                method: 'PATCH',
+                body: data,
+            }),
+            invalidatesTags: ['Reports']
+        })
         
     })
 });
@@ -74,4 +82,5 @@ export const {
     useDeleteReportMutation,
     useGetReportDetailsQuery,
     useGetMyReportsQuery,
+    useVerifyReportMutation
 } = reportsApiSlice;

@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router();
 
-import { getAllReports, createReports, getReportsById, updateReportsById, deleteReport, getMyReport } from '../controllers/reportsController.js'
+import { getAllReports, createReports, getReportsById, updateReportsById, deleteReport, getMyReport, verifyReport } from '../controllers/reportsController.js'
 import { protect, admin } from "../middleware/authMiddleware.js";
 
 
@@ -27,5 +27,13 @@ router
     admin, 
     deleteReport,
   );
+
+router
+    .route('/admin/:id')
+    .patch(
+      protect, 
+      admin, 
+      verifyReport
+    )
 
 export default router;

@@ -32,6 +32,11 @@ const reportsSchema = new mongoose.Schema(
       },
       coordinates: [Number],
     },
+    isVerified: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
   },
 
   {

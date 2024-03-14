@@ -16,7 +16,7 @@ const Mapbox = ({ locations, details }) => {
       pitch: 60,
       minPitch: 60,
       bearing: -17.6,
-      maxZoom: 17.5
+      maxZoom: 18.5
     });
 
     const bounds = new mapboxgl.LngLatBounds();
