@@ -38,6 +38,11 @@ function Map() {
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
         <ChangeCenter position={mapPosition} />
+        <Marker position={mapPosition}>
+          <Popup>
+            Current location: {mapPosition[0]}, {mapPosition[1]}
+          </Popup>
+        </Marker>
         <DetectClick />
       </MapContainer>
     </div>

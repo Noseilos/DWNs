@@ -1,12 +1,12 @@
 import express from 'express'
 const router = express.Router();
 
-import { getAllReports, createReports, getReportsById, updateReportsById, deleteReportsById, getMyReport } from '../controllers/reportsController.js'
+import { getAllReports, createReports, getReportsById, updateReportsById, deleteReport, getMyReport } from '../controllers/reportsController.js'
 import { protect, admin } from "../middleware/authMiddleware.js";
 
 
 router
-  .route(`/`)
+  .route('/')
   .get(getAllReports)
   .post(
     createReports
@@ -15,7 +15,7 @@ router
 router.route('/myreports').get(protect, getMyReport);
 
 router
-  .route(`/:id`)
+  .route('/:id')
   .get(getReportsById)
   .patch(
     protect, 
@@ -25,7 +25,7 @@ router
   .delete(
     protect,
     admin, 
-    deleteReportsById,
+    deleteReport,
   );
 
 export default router;

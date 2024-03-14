@@ -44,6 +44,13 @@ const Header = () => {
             <NavLink>About</NavLink>
           </LinkContainer>
         </li>
+        {userInfo && (
+          <li>
+            <LinkContainer to="/app">
+              <NavLink>Submit</NavLink>
+            </LinkContainer>
+          </li>
+        )}
       </ul>
       <ul>
         {userInfo ? (
@@ -104,7 +111,7 @@ const Header = () => {
         )}
         {userInfo && userInfo.isAdmin && (
           <li>
-            <NavDropdown title="Admin" id="adminMenu">
+            <NavDropdown title="Manage" id="adminMenu">
               <LinkContainer
                 style={{
                   color:
