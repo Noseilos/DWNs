@@ -42,3 +42,18 @@
   font-family: inherit;
   font-size: 1.2rem;
 }
+
+/* Select.module.css */
+
+.select {
+  width: 100%; /* Adjust width as needed */
+  padding: 1.5rem; /* Adjust padding as needed */
+  font-size: 1.5rem; /* Adjust font size as needed */
+  border: 1px solid #d6dee0; /* Border color */
+  border-radius: 5px; /* Border radius */
+  outline: none; /* Remove default outline */
+  background-color: #d6dee0; /* Background color */
+  color: #333;
+}
+
+/* Add more styles as needed */

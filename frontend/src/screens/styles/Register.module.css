@@ -3,10 +3,10 @@
   height: auto;
   background-image: url("../../assets/background-2.png");
   background-color: #2d3439;
-  background-size: cover;
-  background-position: center;
+  background-repeat: no-repeat; /* Ensure background image does not repeat */
   padding: 2.5rem 5rem;
 }
+
 
 .form {
   background-color: var(--color-dark--2);

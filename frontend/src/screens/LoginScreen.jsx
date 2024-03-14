@@ -47,26 +47,26 @@ const LoginScreen = () => {
     <main className={styles.login}>
       <Header />
       <FormContainer>
-        <Form onSubmit={submitHandler} className={styles.form}>
-          <Divider>LOGIN </Divider>
-          <Form.Group controlId="email" className={styles.row}>
+        <form onSubmit={submitHandler} className={styles.form}>
+          <Divider>LOGIN</Divider>
+          <Form.Group className={styles.row}>
             <Form.Label>Email Address</Form.Label>
-            <Form.Control
+            <input
               type="email"
               placeholder="Enter Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            ></Form.Control>
+            ></input>
           </Form.Group>
 
           <Form.Group controlId="password" className={styles.row}>
             <Form.Label>Password</Form.Label>
-            <Form.Control
+            <input
               type="password"
               placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            ></Form.Control>
+            ></input>
           </Form.Group>
 
           <Button type="submit" variant="primary" disabled={isLoading}>
@@ -76,7 +76,7 @@ const LoginScreen = () => {
           {isLoading && <Loader />}
           <div className={styles.lnk}>
             <label>
-              <Link className={styles.link} to="/">
+              <Link className={styles.link} to="/forgot-password">
                 Forgot Password?
               </Link>
             </label>
@@ -86,7 +86,7 @@ const LoginScreen = () => {
               </Link>
             </label>
           </div>
-        </Form>
+        </form>
       </FormContainer>
     </main>
   );

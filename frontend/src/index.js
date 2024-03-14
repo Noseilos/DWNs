@@ -6,7 +6,6 @@ import "./assets/styles/index.css";
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -41,12 +40,16 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Form from "./components/Form";
 import DeletedUserScreen from "./screens/admin/DeletedUserScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/login" element={<LoginScreen />} />
+      <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+      <Route path="/reset-password" element={<ResetPasswordScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/report/:id" element={<ReportDetailScreen />} />
       <Route path="/about" element={<AboutScreen />} />
@@ -66,8 +69,14 @@ const router = createBrowserRouter(
         <Route path="/admin/reports" element={<ReportListScreen />} />
         <Route path="/admin/report/:id" element={<ReportDetailScreen />} />
         <Route path="/admin/locations" element={<LocationListScreen />} />
-        <Route path="/admin/location/edit/:id" element={<LocationEditScreen />} />
-        <Route path="/admin/locations/create" element={<LocationCreateScreen />} />
+        <Route
+          path="/admin/location/edit/:id"
+          element={<LocationEditScreen />}
+        />
+        <Route
+          path="/admin/locations/create"
+          element={<LocationCreateScreen />}
+        />
         <Route path="/admin/users" element={<UserListScreen />} />
         <Route path="/admin/deleted-users" element={<DeletedUserScreen />} />
         <Route path="/admin/user/edit/:id" element={<UserEditScreen />} />

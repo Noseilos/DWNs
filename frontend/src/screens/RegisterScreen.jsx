@@ -98,7 +98,7 @@ const RegisterScreen = () => {
 
           <Form.Group controlId="name" className={styles.row}>
             <Form.Label>Name</Form.Label>
-            <Form.Control
+            <input
               type="text"
               placeholder="Enter Name"
               name="name"
@@ -113,7 +113,7 @@ const RegisterScreen = () => {
 
           <Form.Group controlId="email" className={styles.row}>
             <Form.Label>Email</Form.Label>
-            <Form.Control
+            <input
               type="email"
               placeholder="email@example.com"
               name="email"
@@ -128,7 +128,7 @@ const RegisterScreen = () => {
 
           <Form.Group controlId="image" className={styles.row}>
             <Form.Label>Avatar</Form.Label>
-            <Form.Control
+            <input
               type="file"
               label="Choose files"
               onChange={uploadFileHandler}
@@ -140,7 +140,7 @@ const RegisterScreen = () => {
 
           <Form.Group controlId="password" className={styles.row}>
             <Form.Label>Password</Form.Label>
-            <Form.Control
+            <input
               type="password"
               placeholder="••••••••"
               name="password"
@@ -155,7 +155,7 @@ const RegisterScreen = () => {
 
           <Form.Group controlId="confirmPassword" className={styles.row}>
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
+            <input
               type="password"
               placeholder="••••••••"
               name="confirmPassword"
