@@ -15,15 +15,57 @@ const MyReportsScreen = () => {
   const { data: reports, isLoading, error } = useGetMyReportsQuery();
 
   if (reports == null) {
-    return <Loader />;
+    return (
+      <div className={styles.userlist_container2}>
+        <Header />
+        <div className={styles.userlist_container}>
+          <div className={styles.userlist}>
+            <div className={styles.userlist_title}>
+              <h4>My Reports</h4>
+            </div>
+            <div>
+              <Loader />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <div className={styles.userlist_container2}>
+        <Header />
+        <div className={styles.userlist_container}>
+          <div className={styles.userlist}>
+            <div className={styles.userlist_title}>
+              <h4>My Reports</h4>
+            </div>
+            <div>
+              <Loader />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!reports) {
-    return <div>No reports data available.</div>;
+    return (
+      <div className={styles.userlist_container2}>
+        <Header />
+        <div className={styles.userlist_container}>
+          <div className={styles.userlist}>
+            <div className={styles.userlist_title}>
+              <h4>My Reports</h4>
+            </div>
+            <div>
+              <h5>No reports data available.</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const reportsPerDay = {};
@@ -95,18 +137,20 @@ const MyReportsScreen = () => {
     <>
       <div className={styles.userlist_container2}>
         <Header />
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">
-            {error?.data?.message || error.error}
-          </Message>
-        ) : (
-          <div className={styles.userlist_container}>
-            <div className={styles.userlist}>
-              <div className={styles.userlist_title}>
-                <h4>My Reports</h4>
-              </div>
+
+        <div className={styles.userlist_container}>
+          <div className={styles.userlist}>
+            <div className={styles.userlist_title}>
+              <h4>My Reports</h4>
+            </div>
+            {isLoading && <Loader />}
+            {isLoading ? (
+              <Loader />
+            ) : error ? (
+              <Message variant="danger">
+                {error?.data?.message || error.error}
+              </Message>
+            ) : (
               <Table striped hover responsive className={styles.table}>
                 <thead>
                   <tr>
@@ -132,13 +176,14 @@ const MyReportsScreen = () => {
                     ))}
                 </tbody>
               </Table>
+            )}
 
-              <Bar data={barChartData} options={chartOptions} />
-              {/* <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/> */}
-              {/* <Doughnut data={pieData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/> */}
-            </div>
+            <Bar data={barChartData} options={chartOptions} />
+
+            {/* <Line data={data} style={{ backgroundColor: 'rgba(87, 82, 82, 0.5)' }}/> */}
+            {/* <Doughnut data={pieData} style={{ background: 'rgba(56, 56, 56, 0.7)' }}/> */}
           </div>
-        )}
+        </div>
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux"; // Importing useDispatch hook
+import { useDispatch } from "react-redux"; 
 import axios from "axios";
-import { setCredentials } from "./../slices/authSlice"; // Importing the action creator from the authSlice
+import { setCredentials } from "./../slices/authSlice"; 
 import styles from "./styles/Login.module.css";
 import Header from "../components/Header";
 import FormContainer from "../components/FormContainer";
