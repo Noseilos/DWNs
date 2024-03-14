@@ -12,33 +12,34 @@ const Mapbox = ({ locations, details }) => {
       container: mapContainer.current,
       style: "mapbox://styles/noseilos/clto2zidz01mu01pj8rko7hbo",
       scrollZoom: true,
-      pitch: 45,
+      minPitch: 60,
       bearing: -17.6,
+      maxZoom: 17.5
     });
 
     const bounds = new mapboxgl.LngLatBounds();
 
-    locations.forEach((loc) => {
-      const el = document.createElement("div");
-      el.className = "marker";
+    const loc = locations[0]
 
-      new mapboxgl.Marker({
-        element: el,
-        anchor: "bottom",
-      })
-        .setLngLat(loc.coordinates)
-        .addTo(map);
+    const el = document.createElement("div");
+    el.className = "marker";
 
-      new mapboxgl.Popup({
-        offset: 30,
-      })
-        .setLngLat(loc.coordinates)
-        .setHTML(`<p>${details.locationName}</p>`)
-        .addTo(map);
+    new mapboxgl.Marker({
+      element: el,
+      anchor: "bottom",
+    })
+      .setLngLat(loc.coordinates)
+      .addTo(map);
 
-      bounds.extend(loc.coordinates);
-    });
+    new mapboxgl.Popup({
+      offset: 30,
+    })
+      .setLngLat(loc.coordinates)
+      .setHTML(`<p class="text-black">${details.locationName}</p>`)
+      .addTo(map);
 
+    bounds.extend(loc.coordinates);
+    
     map.fitBounds(bounds, {
       padding: {
         top: 200,
