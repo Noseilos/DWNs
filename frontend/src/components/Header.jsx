@@ -137,13 +137,13 @@ const Header = () => {
               <LinkContainer
                 style={{
                   color:
-                    window.location.pathname === "/admin/locations"
+                    window.location.pathname === "/admin/wastes"
                       ? "#00c46a"
                       : "black",
                 }}
-                to="/admin/locations"
+                to="/admin/wastes"
               >
-                <NavDropdown.Item>Locations</NavDropdown.Item>
+                <NavDropdown.Item>Wastes</NavDropdown.Item>
               </LinkContainer>
             </NavDropdown>
           </li>

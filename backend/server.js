@@ -9,10 +9,10 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
 import userUploadRoutes from './routes/userUploadRoutes.js'
 import reportRoutes from './routes/reportRoutes.js';
-import locationRoutes from './routes/locationRoutes.js';
+import wasteRoutes from './routes/wasteRoutes.js';
 
 import reportUploadRoutes from './routes/reportUploadRoutes.js'
-import locationUploadRoutes from './routes/locationUploadRoutes.js'
+import wasteUploadRoutes from './routes/wasteUploadRoutes.js'
 
 const port = process.env.PORT || 5000;
 
@@ -31,10 +31,10 @@ const __dirname = path.resolve(); // Set dir name to current directory
 
 app.use('/api/users', userRoutes);
 app.use('/api/reports', reportRoutes);
-app.use('/api/locations', locationRoutes);
+app.use('/api/wastes', wasteRoutes);
 
 app.use('/api/uploads/user', userUploadRoutes);
-app.use('/api/uploads/locations', locationUploadRoutes);
+app.use('/api/uploads/wastes', wasteUploadRoutes);
 app.use('/api/uploads/reports', reportUploadRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

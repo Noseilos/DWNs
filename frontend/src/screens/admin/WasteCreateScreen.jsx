@@ -4,25 +4,25 @@ import { Link, useNavigate } from "react-router-dom";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import {
-  useCreateLocationMutation,
-  useUploadLocationImageMutation,
-} from "../../slices/locationSlice";
+  useCreateWasteMutation,
+  useUploadWasteImageMutation,
+} from "../../slices/wasteSlice";
 import { toast } from "react-toastify";
 import { Form, Button, FormGroup } from "react-bootstrap";
 import styles from "../styles/UserEdit.module.css";
 import FormContainer from "../../components/FormContainer";
 import Header from "../../components/Header";
 
-const LocationCreateScreen = () => {
+const WasteCreateScreen = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState([]);
 
   const navigate = useNavigate();
 
-  const [uploadLocationImage, { isLoading: loadingUpload }] =
-    useUploadLocationImageMutation();
-  const [createLocation, { isLoading: loadingCreate, error }] =
-    useCreateLocationMutation();
+  const [uploadWasteImage, { isLoading: loadingUpload }] =
+    useUploadWasteImageMutation();
+  const [createWaste, { isLoading: loadingCreate, error }] =
+    useCreateWasteMutation();
 
   useEffect(() => {
     setName(name);
@@ -37,7 +37,7 @@ const LocationCreateScreen = () => {
     }
 
     try {
-      const res = await uploadLocationImage(formData).unwrap();
+      const res = await uploadWasteImage(formData).unwrap();
       toast.success(res.message);
       setImage(res.image);
     } catch (err) {
@@ -49,18 +49,18 @@ const LocationCreateScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    const newLocation = {
+    const newWaste = {
       name,
       image,
     };
 
-    const result = await createLocation(newLocation);
+    const result = await createWaste(newWaste);
 
     if (result.error) {
       toast.error(result.error);
     } else {
-      toast.success("Location Created");
-      navigate("/");
+      toast.success("Waste Created");
+      navigate("/admin/wastes");
     }
   };
 
@@ -71,7 +71,7 @@ const LocationCreateScreen = () => {
         <div className={styles.useredit_container}>
           <div className={styles.form}>
             <div className={styles.userlist_title}>
-              <h4>Create Location</h4>
+              <h4>Create Waste</h4>
             </div>
             <FormContainer>
               {loadingCreate && <Loader />}
@@ -102,7 +102,7 @@ const LocationCreateScreen = () => {
                   </FormGroup>
                   {loadingUpload && <Loader />}
                   <Link
-                    to={`/admin/locations`}
+                    to={`/admin/wastes`}
                     style={{ marginRight: "10px" }}
                     className="btn btn-danger my-3"
                   >
@@ -121,4 +121,4 @@ const LocationCreateScreen = () => {
   );
 };
 
-export default LocationCreateScreen;
+export default WasteCreateScreen;

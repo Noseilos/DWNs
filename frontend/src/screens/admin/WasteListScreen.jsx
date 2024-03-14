@@ -6,32 +6,30 @@ import { useParams } from "react-router-dom";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import {
-  useGetLocationsQuery,
-  useDeleteLocationMutation,
-} from "../../slices/locationSlice";
+  useGetWastesQuery,
+  useDeleteWasteMutation,
+} from "../../slices/wasteSlice";
 import styles from "../styles/UserList.module.css";
 import { toast } from "react-toastify";
-import Paginate from "../../components/Paginate";
 import Header from "../../components/Header";
 
-const LocationListScreen = () => {
+const WasteListScreen = () => {
   const { pageNumber } = useParams();
 
-  const { data, isLoading, error, refetch } = useGetLocationsQuery({
+  const { data, isLoading, error, refetch } = useGetWastesQuery({
     pageNumber,
   });
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [locationIdToDelete, setLocationIdToDelete] = useState(null);
+  const [wasteIdToDelete, setWasteIdToDelete] = useState(null);
 
-  const [deleteLocation, { isLoading: loadingDelete }] =
-    useDeleteLocationMutation();
+  const [deleteWaste, { isLoading: loadingDelete }] = useDeleteWasteMutation();
 
   const deleteConfirmed = async () => {
     setShowDeleteModal(false);
     try {
-      await deleteLocation(locationIdToDelete);
-      toast.success("Location Deleted");
+      await deleteWaste(wasteIdToDelete);
+      toast.success("Waste Deleted");
       refetch();
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -39,7 +37,7 @@ const LocationListScreen = () => {
   };
 
   const deleteHandler = (id) => {
-    setLocationIdToDelete(id);
+    setWasteIdToDelete(id);
     setShowDeleteModal(true);
   };
 
@@ -51,13 +49,13 @@ const LocationListScreen = () => {
           <div className={styles.userlist_container}>
             <div className={styles.userlist}>
               <div className={styles.userlist_title}>
-                <h4>Locations</h4>
+                <h4>Wastes</h4>
                 <LinkContainer
-                  to={`/admin/locations/create`}
+                  to={`/admin/wastes/create`}
                   style={{ float: "right", color: "white" }}
                 >
                   <Button className="cta" style={{ justifyContent: "end" }}>
-                    Create Location
+                    Create Waste
                   </Button>
                 </LinkContainer>
               </div>
@@ -65,7 +63,9 @@ const LocationListScreen = () => {
               {isLoading ? (
                 <Loader />
               ) : error ? (
-                <Message variant="danger">{error}</Message>
+                <Message variant="danger">
+                  {error.data?.message || error.message}
+                </Message>
               ) : (
                 <Table striped hover responsive className={styles.table}>
                   <thead>
@@ -76,12 +76,12 @@ const LocationListScreen = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((loc) => (
-                      <tr key={loc._id}>
-                        <td>{loc._id}</td>
-                        <td>{loc.name}</td>
+                    {data.map((was) => (
+                      <tr key={was._id}>
+                        <td>{was._id}</td>
+                        <td>{was.name}</td>
                         <td>
-                          <LinkContainer to={`/admin/location/edit/${loc._id}`}>
+                          <LinkContainer to={`/admin/waste/edit/${was._id}`}>
                             <button className={styles.action_btn}>
                               <FaEdit />
                             </button>
@@ -89,7 +89,7 @@ const LocationListScreen = () => {
                           <button
                             className={styles.action_btn2}
                             style={{ margin: "10px" }}
-                            onClick={() => deleteHandler(loc._id)}
+                            onClick={() => deleteHandler(was._id)}
                           >
                             <FaTrash style={{ color: "white" }} />
                           </button>
@@ -108,7 +108,7 @@ const LocationListScreen = () => {
         <div className={styles.modal}>
           <div className={styles.modal_content}>
             <h2>Confirm Deletion</h2>
-            <p>Are you sure you want to delete this location?</p>
+            <p>Are you sure you want to delete this waste?</p>
             <div className={styles.modal_buttons}>
               <Button onClick={deleteConfirmed}>Yes</Button>
               <Button onClick={() => setShowDeleteModal(false)}>No</Button>
@@ -120,4 +120,4 @@ const LocationListScreen = () => {
   );
 };
 
-export default LocationListScreen;
+export default WasteListScreen;

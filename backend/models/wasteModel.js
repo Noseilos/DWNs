@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const locationSchema = new mongoose.Schema({
+const wasteSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId, 
         required: true,
@@ -18,6 +18,6 @@ const locationSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-const Location = mongoose.model('Location', locationSchema);
+const Waste = mongoose.model('Waste', wasteSchema);
 
-export default Location;
+export default Waste;

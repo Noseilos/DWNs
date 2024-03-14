@@ -8,7 +8,7 @@ import {
   useCreateReportMutation,
   useUploadReportImageMutation,
 } from "../slices/reportsSlice";
-import { useGetLocationsQuery } from "../slices/locationSlice";
+import { useGetWastesQuery } from "../slices/wasteSlice";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -16,8 +16,7 @@ import { toast } from "react-toastify";
 import Message from "./Message";
 
 function Form() {
-  const { data: locations, isLoading: loadingLocations } =
-    useGetLocationsQuery();
+  const { data: wastes, isLoading: loadingWaste } = useGetWastesQuery();
 
   const [createReport, { isLoading: loadingCreate, error }] =
     useCreateReportMutation();
@@ -26,7 +25,7 @@ function Form() {
   const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
-
+  const [wasteName, setWasteName] = useState("");
   const [locationName, setLocationName] = useState("");
   const [summary, setSummary] = useState("");
   const [images, setImages] = useState("");
@@ -44,6 +43,9 @@ function Form() {
 
   const handleLocationChange = (e) => {
     setLocationName(e.target.value);
+  };
+  const handleWasteChange = (e) => {
+    setWasteName(e.target.value);
   };
 
   const uploadFileHandler = async (e) => {
@@ -69,6 +71,7 @@ function Form() {
     const newReport = {
       _id: userInfo._id,
       locationName,
+      wasteName,
       summary,
       images,
       location: {
@@ -97,26 +100,48 @@ function Form() {
 
   return (
     <>
-    { userInfo ? (
-    <form
-      className={`${styles.form} ${loadingCreate ? styles.loading : ""}`}
-      onSubmit={handleSubmit}
-    >
-      <div className="flex flex-row gap-4">
-        <div className="w-50">
-          <label htmlFor="Longitude">Longitude</label>
-          <input type="text" disabled value={lng ? lng : ''}/>
-        </div>
-        <div className="w-50">
-          <label htmlFor="Latitude">Latitude</label>
-          <input type="text" disabled value={lat ? lat : ''}/>
-        </div>
-      </div>
+      {userInfo ? (
+        <form
+          className={`${styles.form} ${loadingCreate ? styles.loading : ""}`}
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-row gap-4">
+            <div className="w-50">
+              <label htmlFor="Longitude">Longitude</label>
+              <input type="text" disabled value={lng ? lng : ""} />
+            </div>
+            <div className="w-50">
+              <label htmlFor="Latitude">Latitude</label>
+              <input type="text" disabled value={lat ? lat : ""} />
+            </div>
+          </div>
 
-      <div className={styles.row}>
-        <label htmlFor="Location name">Location Name</label>
-        <input type="text" onChange={handleLocationChange} value={locationName} required/>
-      </div>
+          <div className={styles.row}>
+            <label htmlFor="Location name">Location Name</label>
+            <input
+              type="text"
+              onChange={handleLocationChange}
+              value={locationName}
+              required
+            />
+          </div>
+
+          <div className={styles.row}>
+            <select
+              id="wasteSelect"
+              value={wasteName}
+              onChange={handleWasteChange}
+              required
+            >
+              <option value="">Select a waste</option>
+              {wastes &&
+                wastes.map((waste) => (
+                  <option key={waste.id} value={waste.id}>
+                    {waste.name}
+                  </option>
+                ))}
+            </select>
+          </div>
 
           <div className={styles.row}>
             <label htmlFor="summary">Summary</label>

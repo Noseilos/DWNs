@@ -31,9 +31,8 @@ import ReportDetailScreen from "./screens/ReportDetailScreen";
 import AboutScreen from "./screens/AboutScreen";
 import NewsScreen from "./screens/NewsScreen";
 import MyReportsScreen from "./screens/MyReportsScreen";
-import LocationCreateScreen from "./screens/admin/LocationCreateScreen";
-import LocationListScreen from "./screens/admin/LocationListScreen";
-import LocationEditScreen from "./screens/admin/LocationEditScreen";
+import WasteCreateScreen from "./screens/admin/WasteCreateScreen";
+import WasteListScreen from "./screens/admin/WasteListScreen";
 
 // --- COMPONENT IMPORTS
 import PrivateRoute from "./components/PrivateRoute";
@@ -42,6 +41,7 @@ import Form from "./components/Form";
 import DeletedUserScreen from "./screens/admin/DeletedUserScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import WasteEditScreen from "./screens/admin/WasteEditScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -68,15 +68,9 @@ const router = createBrowserRouter(
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/reports" element={<ReportListScreen />} />
         <Route path="/admin/report/:id" element={<ReportDetailScreen />} />
-        <Route path="/admin/locations" element={<LocationListScreen />} />
-        <Route
-          path="/admin/location/edit/:id"
-          element={<LocationEditScreen />}
-        />
-        <Route
-          path="/admin/locations/create"
-          element={<LocationCreateScreen />}
-        />
+        <Route path="/admin/wastes" element={<WasteListScreen />} />
+        <Route path="/admin/waste/edit/:id" element={<WasteEditScreen />} />
+        <Route path="/admin/wastes/create" element={<WasteCreateScreen />} />
         <Route path="/admin/users" element={<UserListScreen />} />
         <Route path="/admin/deleted-users" element={<DeletedUserScreen />} />
         <Route path="/admin/user/edit/:id" element={<UserEditScreen />} />

@@ -5,10 +5,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import {
-  useUpdateLocationMutation,
-  useUploadLocationImageMutation,
-  useGetLocationDetailsQuery,
-} from "../../slices/locationSlice";
+  useUpdateWasteMutation,
+  useUploadWasteImageMutation,
+  useGetWasteDetailsQuery,
+} from "../../slices/wasteSlice";
 import { toast } from "react-toastify";
 import { Form, Button, FormGroup, FormControl } from "react-bootstrap";
 import FormContainer from "../../components/FormContainer";
@@ -16,8 +16,8 @@ import { Carousel, Image as BootstrapImage } from "react-bootstrap";
 import styles from "../styles/UserEdit.module.css";
 import Header from "../../components/Header";
 
-const LocationEditScreen = () => {
-  const { id: locationId } = useParams();
+const WasteEditScreen = () => {
+  const { id: wasteId } = useParams();
 
   const [name, setName] = useState("");
   const [image, setImage] = useState([]);
@@ -25,41 +25,41 @@ const LocationEditScreen = () => {
   const navigate = useNavigate();
 
   const {
-    data: location,
+    data: waste,
     isLoading,
     error,
     refetch,
-  } = useGetLocationDetailsQuery(locationId);
+  } = useGetWasteDetailsQuery(wasteId);
 
-  const [uploadLocationImage, { isLoading: loadingUpload }] =
-    useUploadLocationImageMutation();
-  const [updateLocation, { isLoading: loadingUpdate }] =
-    useUpdateLocationMutation();
+  const [uploadWasteImage, { isLoading: loadingUpload }] =
+    useUploadWasteImageMutation();
+  const [updateWaste, { isLoading: loadingUpdate }] =
+    useUpdateWasteMutation();
 
   useEffect(() => {
-    if (location) {
-      setName(location.name);
-      setImage(location.image);
+    if (waste) {
+      setName(waste.name);
+      setImage(waste.image);
     }
-  }, [location]);
+  }, [waste]);
 
-  console.log(location);
+  console.log(waste);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const updatedLocation = {
-      locationId,
+    const updatedWaste = {
+      wasteId,
       name,
       image,
     };
 
-    const result = await updateLocation(updatedLocation);
+    const result = await updateWaste(updatedWaste);
 
     if (result.error) {
       toast.error(result.error);
     } else {
-      toast.success("Location Updated");
-      navigate("/admin/locations");
+      toast.success("Waste Updated");
+      navigate("/admin/wastes");
     }
   };
 
@@ -71,7 +71,7 @@ const LocationEditScreen = () => {
     }
 
     try {
-      const res = await uploadLocationImage(formData).unwrap();
+      const res = await uploadWasteImage(formData).unwrap();
       toast.success(res.message);
       setImage(res.image);
     } catch (err) {
@@ -94,7 +94,7 @@ const LocationEditScreen = () => {
         <div className={styles.useredit_container}>
           <div className={styles.form}>
             <div className={styles.userlist_title}>
-              <h4>Edit User: {name}</h4>
+              <h4>Edit Waste: {name}</h4>
             </div>
             <FormContainer>
               {loadingUpdate && <Loader />}
@@ -106,10 +106,10 @@ const LocationEditScreen = () => {
               ) : (
                 <Form onSubmit={submitHandler}>
                   <Form.Group controlId="name" className={styles.row}>
-                    <Form.Label>Location</Form.Label>
+                    <Form.Label>Waste</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Enter Location Name"
+                      placeholder="Enter Waste Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -125,8 +125,8 @@ const LocationEditScreen = () => {
                   </Form.Group>
                   {loadingUpload && <Loader />}
                   <BootstrapImage
-                    src={location.image}
-                    alt={location.name}
+                    src={waste.image}
+                    alt={waste.name}
                     style={{
                       borderRadius: "10px",
                     }}
@@ -140,7 +140,7 @@ const LocationEditScreen = () => {
                   >
                     Update
                   </Button>
-                  <Link to={`/admin/locations`} className="btn btn-light my-3">
+                  <Link to={`/admin/wastes`} className="btn btn-light my-3">
                     Done
                   </Link>
                 </Form>
@@ -153,4 +153,4 @@ const LocationEditScreen = () => {
   );
 };
 
-export default LocationEditScreen;
+export default WasteEditScreen;
